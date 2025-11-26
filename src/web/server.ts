@@ -344,6 +344,96 @@ export class WebUIServer {
         res.status(500).json({ error: errorMessage });
       }
     });
+
+    // API: Upload CSV and Execute Tests
+    this.app.post('/api/csv-execute', async (req: Request, res: Response) => {
+      const { csvContent, url, auth } = req.body;
+
+      if (!csvContent || !url) {
+        return res.status(400).json({ error: 'CSV content and URL are required' });
+      }
+
+      try {
+        this.broadcast('status', { message: 'Parsing CSV test cases...', type: 'info' });
+
+        // Save CSV file
+        const csvDir = path.join(process.cwd(), 'generated');
+        if (!fs.existsSync(csvDir)) {
+          fs.mkdirSync(csvDir, { recursive: true });
+        }
+        const csvPath = path.join(csvDir, 'uploaded-test-cases.csv');
+        fs.writeFileSync(csvPath, csvContent);
+
+        // Parse CSV
+        const parser = new CSVParser();
+        const suite = await parser.parseContent(csvContent, url, 'Uploaded Tests');
+
+        this.broadcast('status', { message: `Parsed ${suite.testCases.length} test cases`, type: 'info' });
+
+        if (suite.testCases.length === 0) {
+          this.broadcast('status', { message: 'No test cases found in CSV', type: 'warning' });
+          return res.json({ success: false, error: 'No test cases found in CSV' });
+        }
+
+        // Generate Playwright scripts
+        this.broadcast('status', { message: 'Generating Playwright scripts...', type: 'info' });
+
+        const generator = new ScriptGenerator({ template: 'typescript' });
+        await generator.generateFromSuite(suite);
+
+        this.broadcast('status', { message: 'Scripts generated! Starting execution...', type: 'info' });
+
+        // Execute tests
+        const executor = new TestExecutor({
+          url,
+          headless: true,
+          video: true,
+        });
+
+        if (auth && auth.credentials) {
+          executor.setCredentials(auth.credentials);
+          suite.credentials = auth.credentials;
+        }
+        if (auth && auth.type) {
+          executor.setAuthConfig(auth);
+        }
+
+        await executor.initialize();
+
+        this.broadcast('status', { message: `Executing ${suite.testCases.length} tests...`, type: 'info' });
+
+        const result = await executor.executeSuite(suite);
+        await executor.close();
+
+        // Generate report
+        this.broadcast('status', { message: 'Generating report...', type: 'info' });
+
+        const reporter = new DashboardReporter({ openAfterGeneration: false });
+        await reporter.generateReport(result, undefined, executor.getIssues());
+
+        this.broadcast('status', { message: `Completed! Passed: ${result.passed}, Failed: ${result.failed}`, type: 'success' });
+        this.broadcast('execution-complete', result);
+
+        res.json({ success: true, result });
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        this.broadcast('status', { message: `Error: ${errorMessage}`, type: 'error' });
+        res.status(500).json({ error: errorMessage });
+      }
+    });
+
+    // API: Download CSV Template
+    this.app.get('/api/csv-template', (req: Request, res: Response) => {
+      const template = `test_id,test_name,description,category,priority,tags,step_order,action,step_description,selector,selector_strategy,value,assertion_type,expected_value,wait_condition,wait_timeout,drag_source,drag_target,continue_on_error,screenshot,expected_result
+TC001,Sample Login Test,Verify user can login,functional,high,"smoke,auth",1,navigate,Open login page,/login,css,,urlContains,/login,domLoaded,5000,,,false,true,User should be logged in
+TC001,Sample Login Test,Verify user can login,functional,high,"smoke,auth",2,type,Enter username,[name="username"],name,testuser,,,visible,3000,,,false,false,User should be logged in
+TC001,Sample Login Test,Verify user can login,functional,high,"smoke,auth",3,type,Enter password,[name="password"],name,password123,,,visible,3000,,,false,false,User should be logged in
+TC001,Sample Login Test,Verify user can login,functional,high,"smoke,auth",4,click,Click login button,[type="submit"],css,,,,networkIdle,10000,,,false,true,User should be logged in`;
+
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', 'attachment; filename="agentqa-test-template.csv"');
+      res.send(template);
+    });
   }
 
   private getMainHTML(): string {
@@ -830,9 +920,9 @@ export class WebUIServer {
           <span class="tab-icon">🔍</span>
           Discover
         </div>
-        <div class="tab" data-tab="execute">
-          <span class="tab-icon">▶️</span>
-          Execute
+        <div class="tab" data-tab="csv-upload">
+          <span class="tab-icon">📄</span>
+          CSV Upload
         </div>
         <div class="tab" data-tab="results">
           <span class="tab-icon">📊</span>
@@ -906,55 +996,72 @@ export class WebUIServer {
         <div class="status-log" id="discover-log" style="display: none;"></div>
       </div>
 
-      <!-- Execute Tab -->
-      <div class="tab-content" id="execute">
-        <h2 style="margin-bottom: 1.5rem;">Execute Tests</h2>
+      <!-- CSV Upload Tab -->
+      <div class="tab-content" id="csv-upload">
+        <h2 style="margin-bottom: 1.5rem;">Upload & Execute CSV Test Cases</h2>
         <p style="color: var(--gray-500); margin-bottom: 1.5rem;">
-          Run discovered test cases or upload your own CSV file.
+          Upload your test cases in CSV format, we'll generate Playwright scripts and execute them.
         </p>
 
-        <div class="form-group">
-          <label for="execute-url">Web Application URL</label>
-          <input type="url" id="execute-url" placeholder="https://your-app.com" />
+        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+          <a href="/api/csv-template" class="btn btn-secondary" download>
+            <span>📥</span> Download CSV Template
+          </a>
         </div>
 
         <div class="form-group">
-          <label>Test Source</label>
-          <select id="execute-source">
-            <option value="discovered">Use Discovered Test Cases</option>
-            <option value="csv">Upload CSV File</option>
-          </select>
+          <label for="csv-url">Web Application URL (Base URL for tests)</label>
+          <input type="url" id="csv-url" placeholder="https://your-app.com" />
         </div>
 
-        <div class="form-group" id="csv-upload-section" style="display: none;">
+        <div class="form-group">
           <label>Upload CSV File</label>
-          <input type="file" id="csv-file" accept=".csv" />
+          <div id="csv-drop-zone" style="border: 2px dashed var(--gray-300); border-radius: 0.75rem; padding: 2rem; text-align: center; cursor: pointer; transition: all 0.3s; background: var(--gray-50);">
+            <div style="font-size: 3rem; margin-bottom: 0.5rem;">📄</div>
+            <p style="color: var(--gray-600); margin-bottom: 0.5rem;">Drag & drop your CSV file here</p>
+            <p style="color: var(--gray-400); font-size: 0.875rem;">or click to browse</p>
+            <input type="file" id="csv-file-input" accept=".csv" style="display: none;" />
+          </div>
+          <div id="csv-file-name" style="margin-top: 0.5rem; color: var(--success); font-weight: 500; display: none;"></div>
+        </div>
+
+        <div class="form-group">
+          <label>Or Paste CSV Content Directly</label>
+          <textarea id="csv-content" rows="6" placeholder="test_id,test_name,description,category,priority,tags,step_order,action,step_description,selector..." style="font-family: monospace; font-size: 0.875rem;"></textarea>
         </div>
 
         <div class="checkbox-group">
-          <input type="checkbox" id="execute-auth" />
-          <label for="execute-auth" style="margin: 0;">Requires Authentication</label>
+          <input type="checkbox" id="csv-auth" />
+          <label for="csv-auth" style="margin: 0;">Requires Authentication</label>
         </div>
 
-        <div class="auth-section" id="execute-auth-section">
+        <div class="auth-section" id="csv-auth-section">
           <h4>🔐 Authentication Settings</h4>
           <div class="form-row">
             <div class="form-group">
               <label>Username/Email</label>
-              <input type="text" id="execute-username" placeholder="username" />
+              <input type="text" id="csv-username" placeholder="username" />
             </div>
             <div class="form-group">
               <label>Password</label>
-              <input type="password" id="execute-password" placeholder="password" />
+              <input type="password" id="csv-password" placeholder="password" />
             </div>
           </div>
         </div>
 
-        <button class="btn btn-success btn-block" id="btn-execute">
-          <span>▶️</span> Execute Tests
+        <button class="btn btn-success btn-block" id="btn-csv-execute">
+          <span>▶️</span> Generate Scripts & Execute Tests
         </button>
 
-        <div class="status-log" id="execute-log" style="display: none;"></div>
+        <div class="status-log" id="csv-log" style="display: none;"></div>
+
+        <div id="csv-preview" style="margin-top: 1.5rem; display: none;">
+          <h4 style="margin-bottom: 0.5rem;">Preview (first 5 rows)</h4>
+          <div style="overflow-x: auto; background: var(--gray-100); border-radius: 0.5rem; padding: 1rem;">
+            <table id="csv-preview-table" style="width: 100%; border-collapse: collapse; font-size: 0.75rem;">
+            </table>
+          </div>
+        </div>
       </div>
 
       <!-- Results Tab -->
@@ -1296,6 +1403,157 @@ export class WebUIServer {
       } finally {
         btn.disabled = false;
         btn.innerHTML = '<span>🚀</span> Run Complete Workflow';
+      }
+    });
+
+    // CSV Upload functionality
+    let csvFileContent = '';
+
+    // CSV Auth toggle
+    const csvAuthCheckbox = document.getElementById('csv-auth');
+    const csvAuthSection = document.getElementById('csv-auth-section');
+    if (csvAuthCheckbox && csvAuthSection) {
+      csvAuthCheckbox.addEventListener('change', () => {
+        csvAuthSection.classList.toggle('visible', csvAuthCheckbox.checked);
+      });
+    }
+
+    // Drag and drop zone
+    const dropZone = document.getElementById('csv-drop-zone');
+    const fileInput = document.getElementById('csv-file-input');
+    const fileNameDisplay = document.getElementById('csv-file-name');
+    const csvContentArea = document.getElementById('csv-content');
+    const csvPreview = document.getElementById('csv-preview');
+    const csvPreviewTable = document.getElementById('csv-preview-table');
+
+    dropZone.addEventListener('click', () => fileInput.click());
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.style.borderColor = 'var(--primary)';
+      dropZone.style.background = 'rgba(99, 102, 241, 0.1)';
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.style.borderColor = 'var(--gray-300)';
+      dropZone.style.background = 'var(--gray-50)';
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.style.borderColor = 'var(--gray-300)';
+      dropZone.style.background = 'var(--gray-50)';
+
+      const file = e.dataTransfer.files[0];
+      if (file && file.name.endsWith('.csv')) {
+        handleCSVFile(file);
+      } else {
+        showNotification('Please upload a CSV file', 'error');
+      }
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        handleCSVFile(file);
+      }
+    });
+
+    function handleCSVFile(file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        csvFileContent = e.target.result;
+        csvContentArea.value = csvFileContent;
+        fileNameDisplay.textContent = '✓ ' + file.name + ' loaded';
+        fileNameDisplay.style.display = 'block';
+        showCSVPreview(csvFileContent);
+        showNotification('CSV file loaded!', 'success');
+      };
+      reader.readAsText(file);
+    }
+
+    // Show CSV preview
+    function showCSVPreview(content) {
+      const lines = content.trim().split('\\n').slice(0, 6);
+      if (lines.length < 2) return;
+
+      const headers = lines[0].split(',').slice(0, 8);
+      let tableHTML = '<thead><tr>';
+      headers.forEach(h => tableHTML += '<th style="padding: 0.5rem; border: 1px solid var(--gray-200); background: var(--gray-200);">' + h.trim() + '</th>');
+      tableHTML += '</tr></thead><tbody>';
+
+      lines.slice(1).forEach(line => {
+        const cells = line.split(',').slice(0, 8);
+        tableHTML += '<tr>';
+        cells.forEach(c => tableHTML += '<td style="padding: 0.5rem; border: 1px solid var(--gray-200);">' + c.trim().substring(0, 20) + '</td>');
+        tableHTML += '</tr>';
+      });
+      tableHTML += '</tbody>';
+
+      csvPreviewTable.innerHTML = tableHTML;
+      csvPreview.style.display = 'block';
+    }
+
+    // CSV content change
+    csvContentArea.addEventListener('input', () => {
+      csvFileContent = csvContentArea.value;
+      if (csvFileContent.trim()) {
+        showCSVPreview(csvFileContent);
+      }
+    });
+
+    // CSV Execute button
+    document.getElementById('btn-csv-execute').addEventListener('click', async () => {
+      const url = document.getElementById('csv-url').value;
+      const content = csvContentArea.value || csvFileContent;
+
+      if (!url) {
+        showNotification('Please enter the Web Application URL', 'error');
+        return;
+      }
+
+      if (!content.trim()) {
+        showNotification('Please upload or paste CSV test cases', 'error');
+        return;
+      }
+
+      const btn = document.getElementById('btn-csv-execute');
+      btn.disabled = true;
+      btn.innerHTML = '<div class="spinner"></div> Generating & Executing...';
+
+      const body = {
+        url,
+        csvContent: content,
+      };
+
+      if (document.getElementById('csv-auth').checked) {
+        body.auth = {
+          type: 'form',
+          credentials: {
+            username: document.getElementById('csv-username').value,
+            password: document.getElementById('csv-password').value,
+          }
+        };
+      }
+
+      try {
+        const response = await fetch('/api/csv-execute', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        const data = await response.json();
+
+        if (data.error) {
+          showNotification(data.error, 'error');
+        } else {
+          showNotification('Tests completed! Check Results tab.', 'success');
+        }
+      } catch (error) {
+        showNotification('Failed to execute tests: ' + error.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>▶️</span> Generate Scripts & Execute Tests';
       }
     });
 
