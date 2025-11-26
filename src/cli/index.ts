@@ -450,6 +450,24 @@ program
   });
 
 // ============================================================================
+// WEB UI COMMAND
+// ============================================================================
+program
+  .command('ui')
+  .description('Start the beautiful web UI dashboard')
+  .option('-p, --port <number>', 'Port number', '3000')
+  .action(async (options: any) => {
+    try {
+      const { WebUIServer } = await import('../web/server');
+      const server = new WebUIServer(parseInt(options.port));
+      await server.start();
+    } catch (error) {
+      console.error(chalk.red(error instanceof Error ? error.message : String(error)));
+      process.exit(1);
+    }
+  });
+
+// ============================================================================
 // INTERACTIVE MODE
 // ============================================================================
 program
