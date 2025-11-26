@@ -162,7 +162,9 @@ export class WebUIServer {
               description: `Auto-generated tests from ${url}`,
               baseUrl: discovery.baseUrl,
               testCases: discovery.suggestedTestCases,
-            };
+              credentials: undefined,
+              config: undefined,
+            } as any;
           } else {
             return res.status(400).json({ error: 'No test cases found. Run discovery first.' });
           }
