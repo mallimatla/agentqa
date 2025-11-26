@@ -81,9 +81,14 @@ export class WebUIServer {
         const crawler = new WebCrawler();
         await crawler.initialize({ headless: true });
 
-        if (auth && auth.type) {
+        if (auth && auth.type && auth.credentials) {
           this.broadcast('status', { message: 'Authenticating...', type: 'info' });
-          await crawler.authenticate(auth, auth.credentials || {});
+          // Ensure login URL is absolute
+          const authConfig = {
+            ...auth,
+            loginUrl: auth.loginUrl?.startsWith('http') ? auth.loginUrl : `${url}${auth.loginUrl || '/login'}`,
+          };
+          await crawler.authenticate(authConfig, auth.credentials);
         }
 
         this.broadcast('status', { message: `Crawling ${url}...`, type: 'info' });
