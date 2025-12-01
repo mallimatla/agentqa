@@ -94,6 +94,7 @@ export class TestExecutor {
     this.browser = await chromium.launch({
       headless: this.options.headless,
       slowMo: this.options.debug ? 100 : 0,
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
     });
 
     // Create context with video and trace options

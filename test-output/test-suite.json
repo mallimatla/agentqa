@@ -1,0 +1,4913 @@
+{
+  "id": "a2520622-60a2-4ff1-8f5f-e687b43c8aa8",
+  "projectId": "testapp-001",
+  "strategyId": "f810a2a9-e1ac-41d4-a95d-91d7406daf3c",
+  "name": "TestApp E-Commerce Demo - Intelligent Test Suite",
+  "description": "Comprehensive test suite generated from 4 user stories, 3 features, and 1 critical flows",
+  "baseUrl": "http://localhost:4000",
+  "scenarios": [
+    {
+      "id": "e32e32d5-929e-45f3-bbb2-a73a174b7ba7",
+      "name": "User Login - Happy Path",
+      "description": "User can log into the system",
+      "feature": "General",
+      "userStory": "story-login",
+      "userRole": "Admin",
+      "type": "positive",
+      "preconditions": [
+        "User is logged in as Admin"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "User can enter email and password",
+          "action": "verify",
+          "expectedResult": "Criteria met"
+        },
+        {
+          "order": 2,
+          "description": "System validates credentials",
+          "action": "verify",
+          "expectedResult": "Criteria met"
+        },
+        {
+          "order": 3,
+          "description": "User is redirected to dashboard on success",
+          "action": "verify",
+          "expectedResult": "Criteria met"
+        },
+        {
+          "order": 4,
+          "description": "Error message shown on invalid credentials",
+          "action": "verify",
+          "expectedResult": "Criteria met"
+        }
+      ],
+      "expectedBehavior": "User can enter email and password; System validates credentials; User is redirected to dashboard on success; Error message shown on invalid credentials",
+      "priority": "critical",
+      "tags": [
+        "positive",
+        "authentication",
+        "login"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [],
+        "integrations": []
+      }
+    },
+    {
+      "id": "c1e51d89-4b1d-4d23-82fd-921bc70dd1c4",
+      "name": "User Registration - Happy Path",
+      "description": "New user can create an account",
+      "feature": "General",
+      "userStory": "story-register",
+      "userRole": "Admin",
+      "type": "positive",
+      "preconditions": [
+        "User is logged in as Admin"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "User can enter name, email, and password",
+          "action": "verify",
+          "expectedResult": "Criteria met"
+        },
+        {
+          "order": 2,
+          "description": "Passwords must match",
+          "action": "verify",
+          "expectedResult": "Criteria met"
+        },
+        {
+          "order": 3,
+          "description": "Email must be unique",
+          "action": "verify",
+          "expectedResult": "Criteria met"
+        },
+        {
+          "order": 4,
+          "description": "Terms must be accepted",
+          "action": "verify",
+          "expectedResult": "Criteria met"
+        }
+      ],
+      "expectedBehavior": "User can enter name, email, and password; Passwords must match; Email must be unique; Terms must be accepted",
+      "priority": "high",
+      "tags": [
+        "positive",
+        "authentication",
+        "registration"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [],
+        "integrations": []
+      }
+    },
+    {
+      "id": "4523f06d-1afe-42b9-8237-0fba268e9025",
+      "name": "Browse Products - Happy Path",
+      "description": "User can view and search products",
+      "feature": "General",
+      "userStory": "story-browse-products",
+      "userRole": "Admin",
+      "type": "positive",
+      "preconditions": [
+        "User is logged in as Admin"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Products are displayed in a table",
+          "action": "verify",
+          "expectedResult": "Criteria met"
+        },
+        {
+          "order": 2,
+          "description": "Can search by name",
+          "action": "verify",
+          "expectedResult": "Criteria met"
+        },
+        {
+          "order": 3,
+          "description": "Can filter by category",
+          "action": "verify",
+          "expectedResult": "Criteria met"
+        }
+      ],
+      "expectedBehavior": "Products are displayed in a table; Can search by name; Can filter by category",
+      "priority": "high",
+      "tags": [
+        "positive",
+        "products",
+        "search"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [],
+        "integrations": []
+      }
+    },
+    {
+      "id": "2296c7c9-5baf-417a-b377-27a132bb1357",
+      "name": "Place Order - Happy Path",
+      "description": "User can place an order for a product",
+      "feature": "General",
+      "userStory": "story-place-order",
+      "userRole": "Admin",
+      "type": "positive",
+      "preconditions": [
+        "User is logged in as Admin"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "User can select quantity",
+          "action": "verify",
+          "expectedResult": "Criteria met"
+        },
+        {
+          "order": 2,
+          "description": "User must enter shipping address",
+          "action": "verify",
+          "expectedResult": "Criteria met"
+        },
+        {
+          "order": 3,
+          "description": "Order is created on submit",
+          "action": "verify",
+          "expectedResult": "Criteria met"
+        }
+      ],
+      "expectedBehavior": "User can select quantity; User must enter shipping address; Order is created on submit",
+      "priority": "critical",
+      "tags": [
+        "positive",
+        "orders",
+        "checkout"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [],
+        "integrations": []
+      }
+    },
+    {
+      "id": "5c0a2d7f-3ce4-4b99-abcb-1acc1b283e8f",
+      "name": "Login - Admin Access",
+      "description": "Verify Login functionality for Admin role",
+      "feature": "Login",
+      "userRole": "Admin",
+      "type": "positive",
+      "preconditions": [
+        "User is logged in as Admin"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Navigate to Login",
+          "action": "navigate",
+          "expectedResult": "Login page loads successfully"
+        },
+        {
+          "order": 2,
+          "description": "Enter email",
+          "action": "type",
+          "input": "{{email}}",
+          "expectedResult": "email is filled"
+        },
+        {
+          "order": 3,
+          "description": "Enter password",
+          "action": "type",
+          "input": "{{password}}",
+          "expectedResult": "password is filled"
+        },
+        {
+          "order": 4,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Form submitted successfully"
+        },
+        {
+          "order": 5,
+          "description": "Verify redirect",
+          "action": "assert",
+          "expectedResult": "/dashboard"
+        }
+      ],
+      "expectedBehavior": "Admin can successfully use Login",
+      "priority": "critical",
+      "tags": [
+        "positive",
+        "Authentication",
+        "admin"
+      ],
+      "coverage": {
+        "businessRules": [
+          "br-1"
+        ],
+        "validations": [
+          "email",
+          "password"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "584aae94-2ae6-4232-912c-46b1cffbed74",
+      "name": "Login - Regular User Access",
+      "description": "Verify Login functionality for Regular User role",
+      "feature": "Login",
+      "userRole": "Regular User",
+      "type": "positive",
+      "preconditions": [
+        "User is logged in as Regular User"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Navigate to Login",
+          "action": "navigate",
+          "expectedResult": "Login page loads successfully"
+        },
+        {
+          "order": 2,
+          "description": "Enter email",
+          "action": "type",
+          "input": "{{email}}",
+          "expectedResult": "email is filled"
+        },
+        {
+          "order": 3,
+          "description": "Enter password",
+          "action": "type",
+          "input": "{{password}}",
+          "expectedResult": "password is filled"
+        },
+        {
+          "order": 4,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Form submitted successfully"
+        },
+        {
+          "order": 5,
+          "description": "Verify redirect",
+          "action": "assert",
+          "expectedResult": "/dashboard"
+        }
+      ],
+      "expectedBehavior": "Regular User can successfully use Login",
+      "priority": "critical",
+      "tags": [
+        "positive",
+        "Authentication",
+        "regular user"
+      ],
+      "coverage": {
+        "businessRules": [
+          "br-1"
+        ],
+        "validations": [
+          "email",
+          "password"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "797c5eaa-acfc-4fd8-b404-246ee3d4e7d1",
+      "name": "Registration - Admin Access",
+      "description": "Verify Registration functionality for Admin role",
+      "feature": "Registration",
+      "userRole": "Admin",
+      "type": "positive",
+      "preconditions": [
+        "User is logged in as Admin"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Navigate to Registration",
+          "action": "navigate",
+          "expectedResult": "Registration page loads successfully"
+        },
+        {
+          "order": 2,
+          "description": "Enter name",
+          "action": "type",
+          "input": "{{name}}",
+          "expectedResult": "name is filled"
+        },
+        {
+          "order": 3,
+          "description": "Enter email",
+          "action": "type",
+          "input": "{{email}}",
+          "expectedResult": "email is filled"
+        },
+        {
+          "order": 4,
+          "description": "Enter password",
+          "action": "type",
+          "input": "{{password}}",
+          "expectedResult": "password is filled"
+        },
+        {
+          "order": 5,
+          "description": "Enter confirm_password",
+          "action": "type",
+          "input": "{{confirm_password}}",
+          "expectedResult": "confirm_password is filled"
+        },
+        {
+          "order": 6,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Form submitted successfully"
+        },
+        {
+          "order": 7,
+          "description": "Verify redirect",
+          "action": "assert",
+          "expectedResult": "/dashboard"
+        }
+      ],
+      "expectedBehavior": "Admin can successfully use Registration",
+      "priority": "high",
+      "tags": [
+        "positive",
+        "Authentication",
+        "admin"
+      ],
+      "coverage": {
+        "businessRules": [
+          "br-2"
+        ],
+        "validations": [
+          "name",
+          "password"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "3b41b98b-d61d-48c4-9d61-501ab449ffea",
+      "name": "Registration - Regular User Access",
+      "description": "Verify Registration functionality for Regular User role",
+      "feature": "Registration",
+      "userRole": "Regular User",
+      "type": "positive",
+      "preconditions": [
+        "User is logged in as Regular User"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Navigate to Registration",
+          "action": "navigate",
+          "expectedResult": "Registration page loads successfully"
+        },
+        {
+          "order": 2,
+          "description": "Enter name",
+          "action": "type",
+          "input": "{{name}}",
+          "expectedResult": "name is filled"
+        },
+        {
+          "order": 3,
+          "description": "Enter email",
+          "action": "type",
+          "input": "{{email}}",
+          "expectedResult": "email is filled"
+        },
+        {
+          "order": 4,
+          "description": "Enter password",
+          "action": "type",
+          "input": "{{password}}",
+          "expectedResult": "password is filled"
+        },
+        {
+          "order": 5,
+          "description": "Enter confirm_password",
+          "action": "type",
+          "input": "{{confirm_password}}",
+          "expectedResult": "confirm_password is filled"
+        },
+        {
+          "order": 6,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Form submitted successfully"
+        },
+        {
+          "order": 7,
+          "description": "Verify redirect",
+          "action": "assert",
+          "expectedResult": "/dashboard"
+        }
+      ],
+      "expectedBehavior": "Regular User can successfully use Registration",
+      "priority": "high",
+      "tags": [
+        "positive",
+        "Authentication",
+        "regular user"
+      ],
+      "coverage": {
+        "businessRules": [
+          "br-2"
+        ],
+        "validations": [
+          "name",
+          "password"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "a2db92ee-06ad-4574-bd32-ca7693f9d8a8",
+      "name": "Place Order - Admin Access",
+      "description": "Verify Place Order functionality for Admin role",
+      "feature": "Place Order",
+      "userRole": "Admin",
+      "type": "positive",
+      "preconditions": [
+        "User is logged in as Admin"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Navigate to Place Order",
+          "action": "navigate",
+          "expectedResult": "Place Order page loads successfully"
+        },
+        {
+          "order": 2,
+          "description": "Enter quantity",
+          "action": "type",
+          "input": "{{quantity}}",
+          "expectedResult": "quantity is filled"
+        },
+        {
+          "order": 3,
+          "description": "Enter shipping_address",
+          "action": "type",
+          "input": "{{shipping_address}}",
+          "expectedResult": "shipping_address is filled"
+        },
+        {
+          "order": 4,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Form submitted successfully"
+        },
+        {
+          "order": 5,
+          "description": "Verify order_confirmation",
+          "action": "assert",
+          "expectedResult": "Order placed successfully"
+        }
+      ],
+      "expectedBehavior": "Admin can successfully use Place Order",
+      "priority": "critical",
+      "tags": [
+        "positive",
+        "Orders",
+        "admin"
+      ],
+      "coverage": {
+        "businessRules": [
+          "br-4"
+        ],
+        "validations": [
+          "quantity",
+          "shipping_address"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "e0c1d403-68c7-45ad-b4e5-73f77b5256fd",
+      "name": "Place Order - Regular User Access",
+      "description": "Verify Place Order functionality for Regular User role",
+      "feature": "Place Order",
+      "userRole": "Regular User",
+      "type": "positive",
+      "preconditions": [
+        "User is logged in as Regular User"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Navigate to Place Order",
+          "action": "navigate",
+          "expectedResult": "Place Order page loads successfully"
+        },
+        {
+          "order": 2,
+          "description": "Enter quantity",
+          "action": "type",
+          "input": "{{quantity}}",
+          "expectedResult": "quantity is filled"
+        },
+        {
+          "order": 3,
+          "description": "Enter shipping_address",
+          "action": "type",
+          "input": "{{shipping_address}}",
+          "expectedResult": "shipping_address is filled"
+        },
+        {
+          "order": 4,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Form submitted successfully"
+        },
+        {
+          "order": 5,
+          "description": "Verify order_confirmation",
+          "action": "assert",
+          "expectedResult": "Order placed successfully"
+        }
+      ],
+      "expectedBehavior": "Regular User can successfully use Place Order",
+      "priority": "critical",
+      "tags": [
+        "positive",
+        "Orders",
+        "regular user"
+      ],
+      "coverage": {
+        "businessRules": [
+          "br-4"
+        ],
+        "validations": [
+          "quantity",
+          "shipping_address"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "8a1984a6-778f-4c8c-8ccf-b9f9f9d83011",
+      "name": "Critical Flow: Login and Place Order",
+      "description": "Complete flow from login to order placement",
+      "feature": "Critical Flows",
+      "userRole": "Admin",
+      "type": "positive",
+      "preconditions": [
+        "User is logged in as Admin"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Navigate to login page",
+          "action": "execute",
+          "expectedResult": "Step completes successfully"
+        },
+        {
+          "order": 2,
+          "description": "Enter valid credentials",
+          "action": "execute",
+          "expectedResult": "Step completes successfully"
+        },
+        {
+          "order": 3,
+          "description": "Click login button",
+          "action": "execute",
+          "expectedResult": "Step completes successfully"
+        },
+        {
+          "order": 4,
+          "description": "Navigate to products",
+          "action": "execute",
+          "expectedResult": "Step completes successfully"
+        },
+        {
+          "order": 5,
+          "description": "Click order button on a product",
+          "action": "execute",
+          "expectedResult": "Step completes successfully"
+        },
+        {
+          "order": 6,
+          "description": "Enter quantity and shipping address",
+          "action": "execute",
+          "expectedResult": "Step completes successfully"
+        },
+        {
+          "order": 7,
+          "description": "Submit order",
+          "action": "execute",
+          "expectedResult": "Order is created"
+        }
+      ],
+      "expectedBehavior": "Order is created",
+      "priority": "critical",
+      "tags": [
+        "critical-flow",
+        "e2e",
+        "very-high"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [],
+        "integrations": []
+      }
+    },
+    {
+      "id": "fb095ba8-193b-411a-81eb-20c734738e02",
+      "name": "Authorization: Regular User Restrictions",
+      "description": "Verify Regular User cannot access restricted features",
+      "feature": "Authorization",
+      "userRole": "Regular User",
+      "type": "negative",
+      "preconditions": [
+        "User is logged in as Regular User"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Attempt to access admin_panel",
+          "action": "navigate",
+          "expectedResult": "Access denied or redirect to authorized page"
+        },
+        {
+          "order": 2,
+          "description": "Attempt to access manage_users",
+          "action": "navigate",
+          "expectedResult": "Access denied or redirect to authorized page"
+        },
+        {
+          "order": 3,
+          "description": "Attempt to access manage_products",
+          "action": "navigate",
+          "expectedResult": "Access denied or redirect to authorized page"
+        }
+      ],
+      "expectedBehavior": "User cannot access restricted features",
+      "priority": "high",
+      "tags": [
+        "negative",
+        "authorization",
+        "security"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [],
+        "integrations": []
+      }
+    },
+    {
+      "id": "ad794213-cc89-4c43-822c-aaebed30a42f",
+      "name": "Login - missing-required: email",
+      "description": "Verify error handling for missing-required on email",
+      "feature": "Login",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter missing-required value in email",
+          "action": "type",
+          "input": "",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "email is required"
+        }
+      ],
+      "expectedBehavior": "email is required",
+      "priority": "high",
+      "tags": [
+        "negative",
+        "missing-required",
+        "email"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "email"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "571ba8b5-768a-4c07-8ab3-ebea97b596d8",
+      "name": "Login - format-error: email",
+      "description": "Verify error handling for format-error on email",
+      "feature": "Login",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter format-error value in email",
+          "action": "type",
+          "input": "invalid-email",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Invalid email format"
+        }
+      ],
+      "expectedBehavior": "Invalid email format",
+      "priority": "medium",
+      "tags": [
+        "negative",
+        "format-error",
+        "email"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "email"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "9dc9df9c-4309-45b7-a99b-41ccd9c41dd6",
+      "name": "Login - injection: email",
+      "description": "Verify error handling for injection on email",
+      "feature": "Login",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter injection value in email",
+          "action": "type",
+          "input": "'; DROP TABLE users; --",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Input sanitized or rejected"
+        }
+      ],
+      "expectedBehavior": "Input sanitized or rejected",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "email"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "email"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "e8ea74b4-19e8-4182-a7e1-1818a2e40f02",
+      "name": "Login - injection: email",
+      "description": "Verify error handling for injection on email",
+      "feature": "Login",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter injection value in email",
+          "action": "type",
+          "input": "<script>alert(\"xss\")</script>",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Input sanitized or rejected"
+        }
+      ],
+      "expectedBehavior": "Input sanitized or rejected",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "email"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "email"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "91af139d-83b9-4450-bd4c-188605951c14",
+      "name": "Login - missing-required: password",
+      "description": "Verify error handling for missing-required on password",
+      "feature": "Login",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter missing-required value in password",
+          "action": "type",
+          "input": "",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "password is required"
+        }
+      ],
+      "expectedBehavior": "password is required",
+      "priority": "high",
+      "tags": [
+        "negative",
+        "missing-required",
+        "password"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "password"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "2a84c08c-ef13-4da7-b82e-50e7b2c25571",
+      "name": "Login - injection: password",
+      "description": "Verify error handling for injection on password",
+      "feature": "Login",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter injection value in password",
+          "action": "type",
+          "input": "'; DROP TABLE users; --",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Input sanitized or rejected"
+        }
+      ],
+      "expectedBehavior": "Input sanitized or rejected",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "password"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "password"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "7d6a99f8-b591-4025-aed1-7288f878970a",
+      "name": "Login - injection: password",
+      "description": "Verify error handling for injection on password",
+      "feature": "Login",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter injection value in password",
+          "action": "type",
+          "input": "<script>alert(\"xss\")</script>",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Input sanitized or rejected"
+        }
+      ],
+      "expectedBehavior": "Input sanitized or rejected",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "password"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "password"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "9d7713e3-47c1-4399-bff1-5e5c05af2d9a",
+      "name": "Registration - missing-required: name",
+      "description": "Verify error handling for missing-required on name",
+      "feature": "Registration",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter missing-required value in name",
+          "action": "type",
+          "input": "",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "name is required"
+        }
+      ],
+      "expectedBehavior": "name is required",
+      "priority": "high",
+      "tags": [
+        "negative",
+        "missing-required",
+        "name"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "name"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "030e7d8d-8a15-4b86-8285-6e241f64d731",
+      "name": "Registration - boundary-violation: name",
+      "description": "Verify error handling for boundary-violation on name",
+      "feature": "Registration",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter boundary-violation value in name",
+          "action": "type",
+          "input": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "name exceeds maximum length"
+        }
+      ],
+      "expectedBehavior": "name exceeds maximum length",
+      "priority": "medium",
+      "tags": [
+        "negative",
+        "boundary-violation",
+        "name"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "name"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "a3e519ab-8372-412c-8087-65167c408d51",
+      "name": "Registration - injection: name",
+      "description": "Verify error handling for injection on name",
+      "feature": "Registration",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter injection value in name",
+          "action": "type",
+          "input": "'; DROP TABLE users; --",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Input sanitized or rejected"
+        }
+      ],
+      "expectedBehavior": "Input sanitized or rejected",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "name"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "name"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "c2bcf3d1-5b7c-4904-9924-b9e22273eb34",
+      "name": "Registration - injection: name",
+      "description": "Verify error handling for injection on name",
+      "feature": "Registration",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter injection value in name",
+          "action": "type",
+          "input": "<script>alert(\"xss\")</script>",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Input sanitized or rejected"
+        }
+      ],
+      "expectedBehavior": "Input sanitized or rejected",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "name"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "name"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "2ccff0e3-f9cb-4662-8af4-a91ff3bd7ee6",
+      "name": "Registration - missing-required: email",
+      "description": "Verify error handling for missing-required on email",
+      "feature": "Registration",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter missing-required value in email",
+          "action": "type",
+          "input": "",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "email is required"
+        }
+      ],
+      "expectedBehavior": "email is required",
+      "priority": "high",
+      "tags": [
+        "negative",
+        "missing-required",
+        "email"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "email"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "def35031-3cc1-45ba-bbd6-7bed0b685571",
+      "name": "Registration - format-error: email",
+      "description": "Verify error handling for format-error on email",
+      "feature": "Registration",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter format-error value in email",
+          "action": "type",
+          "input": "invalid-email",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Invalid email format"
+        }
+      ],
+      "expectedBehavior": "Invalid email format",
+      "priority": "medium",
+      "tags": [
+        "negative",
+        "format-error",
+        "email"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "email"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "cdef2170-2e34-4288-a218-de8acc6e31bc",
+      "name": "Registration - injection: email",
+      "description": "Verify error handling for injection on email",
+      "feature": "Registration",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter injection value in email",
+          "action": "type",
+          "input": "'; DROP TABLE users; --",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Input sanitized or rejected"
+        }
+      ],
+      "expectedBehavior": "Input sanitized or rejected",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "email"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "email"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "4ad3f2e7-ea54-4bff-8e18-aa2d9c78d219",
+      "name": "Registration - injection: email",
+      "description": "Verify error handling for injection on email",
+      "feature": "Registration",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter injection value in email",
+          "action": "type",
+          "input": "<script>alert(\"xss\")</script>",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Input sanitized or rejected"
+        }
+      ],
+      "expectedBehavior": "Input sanitized or rejected",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "email"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "email"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "fa43b3a7-70b8-418a-92d6-2c30451b1179",
+      "name": "Registration - missing-required: password",
+      "description": "Verify error handling for missing-required on password",
+      "feature": "Registration",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter missing-required value in password",
+          "action": "type",
+          "input": "",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "password is required"
+        }
+      ],
+      "expectedBehavior": "password is required",
+      "priority": "high",
+      "tags": [
+        "negative",
+        "missing-required",
+        "password"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "password"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "ea439932-4da6-4f18-bd06-9a427419804b",
+      "name": "Registration - injection: password",
+      "description": "Verify error handling for injection on password",
+      "feature": "Registration",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter injection value in password",
+          "action": "type",
+          "input": "'; DROP TABLE users; --",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Input sanitized or rejected"
+        }
+      ],
+      "expectedBehavior": "Input sanitized or rejected",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "password"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "password"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "c2b659d5-e357-468d-aeba-c3843ea114ae",
+      "name": "Registration - injection: password",
+      "description": "Verify error handling for injection on password",
+      "feature": "Registration",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter injection value in password",
+          "action": "type",
+          "input": "<script>alert(\"xss\")</script>",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Input sanitized or rejected"
+        }
+      ],
+      "expectedBehavior": "Input sanitized or rejected",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "password"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "password"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "52ef0321-d25f-49a6-9a2d-78cdcf8da67f",
+      "name": "Registration - missing-required: confirm_password",
+      "description": "Verify error handling for missing-required on confirm_password",
+      "feature": "Registration",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter missing-required value in confirm_password",
+          "action": "type",
+          "input": "",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "confirm_password is required"
+        }
+      ],
+      "expectedBehavior": "confirm_password is required",
+      "priority": "high",
+      "tags": [
+        "negative",
+        "missing-required",
+        "confirm_password"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "confirm_password"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "70538ded-c230-4f83-adee-177d705b06d5",
+      "name": "Registration - injection: confirm_password",
+      "description": "Verify error handling for injection on confirm_password",
+      "feature": "Registration",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter injection value in confirm_password",
+          "action": "type",
+          "input": "'; DROP TABLE users; --",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Input sanitized or rejected"
+        }
+      ],
+      "expectedBehavior": "Input sanitized or rejected",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "confirm_password"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "confirm_password"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "33d2e3a0-351f-4e89-8e78-0132cbb766e9",
+      "name": "Registration - injection: confirm_password",
+      "description": "Verify error handling for injection on confirm_password",
+      "feature": "Registration",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter injection value in confirm_password",
+          "action": "type",
+          "input": "<script>alert(\"xss\")</script>",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Input sanitized or rejected"
+        }
+      ],
+      "expectedBehavior": "Input sanitized or rejected",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "confirm_password"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "confirm_password"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "5d685c6d-1633-4e03-bf03-d5de4600ec37",
+      "name": "Place Order - missing-required: quantity",
+      "description": "Verify error handling for missing-required on quantity",
+      "feature": "Place Order",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter missing-required value in quantity",
+          "action": "type",
+          "input": "",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "quantity is required"
+        }
+      ],
+      "expectedBehavior": "quantity is required",
+      "priority": "high",
+      "tags": [
+        "negative",
+        "missing-required",
+        "quantity"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "quantity"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "44f8d4f3-3f08-4720-b3fe-c271a95e70ab",
+      "name": "Place Order - invalid-input: quantity",
+      "description": "Verify error handling for invalid-input on quantity",
+      "feature": "Place Order",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter invalid-input value in quantity",
+          "action": "type",
+          "input": "abc",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "quantity must be a number"
+        }
+      ],
+      "expectedBehavior": "quantity must be a number",
+      "priority": "medium",
+      "tags": [
+        "negative",
+        "invalid-input",
+        "quantity"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "quantity"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "8fc50abf-c34a-470c-8cb8-bf4017d71ca1",
+      "name": "Place Order - injection: quantity",
+      "description": "Verify error handling for injection on quantity",
+      "feature": "Place Order",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter injection value in quantity",
+          "action": "type",
+          "input": "'; DROP TABLE users; --",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Input sanitized or rejected"
+        }
+      ],
+      "expectedBehavior": "Input sanitized or rejected",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "quantity"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "quantity"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "22b419d8-04af-4620-8cd9-ad9c4136e47e",
+      "name": "Place Order - injection: quantity",
+      "description": "Verify error handling for injection on quantity",
+      "feature": "Place Order",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter injection value in quantity",
+          "action": "type",
+          "input": "<script>alert(\"xss\")</script>",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Input sanitized or rejected"
+        }
+      ],
+      "expectedBehavior": "Input sanitized or rejected",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "quantity"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "quantity"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "095cbf09-5ff8-4d3b-b737-7b3c36b1ae7f",
+      "name": "Place Order - missing-required: shipping_address",
+      "description": "Verify error handling for missing-required on shipping_address",
+      "feature": "Place Order",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter missing-required value in shipping_address",
+          "action": "type",
+          "input": "",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "shipping_address is required"
+        }
+      ],
+      "expectedBehavior": "shipping_address is required",
+      "priority": "high",
+      "tags": [
+        "negative",
+        "missing-required",
+        "shipping_address"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "shipping_address"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "d6956fe5-4c67-4ff0-b1bb-6f7e1e0d90e7",
+      "name": "Place Order - boundary-violation: shipping_address",
+      "description": "Verify error handling for boundary-violation on shipping_address",
+      "feature": "Place Order",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter boundary-violation value in shipping_address",
+          "action": "type",
+          "input": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "shipping_address exceeds maximum length"
+        }
+      ],
+      "expectedBehavior": "shipping_address exceeds maximum length",
+      "priority": "medium",
+      "tags": [
+        "negative",
+        "boundary-violation",
+        "shipping_address"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "shipping_address"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "7c9f052c-21c8-4c43-ba4c-0e24c760df3c",
+      "name": "Place Order - injection: shipping_address",
+      "description": "Verify error handling for injection on shipping_address",
+      "feature": "Place Order",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter injection value in shipping_address",
+          "action": "type",
+          "input": "'; DROP TABLE users; --",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Input sanitized or rejected"
+        }
+      ],
+      "expectedBehavior": "Input sanitized or rejected",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "shipping_address"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "shipping_address"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "ce4c5dd4-6ea1-410a-acec-096262ef1a31",
+      "name": "Place Order - injection: shipping_address",
+      "description": "Verify error handling for injection on shipping_address",
+      "feature": "Place Order",
+      "userRole": "Admin",
+      "type": "negative",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter injection value in shipping_address",
+          "action": "type",
+          "input": "<script>alert(\"xss\")</script>",
+          "expectedResult": "Value is entered"
+        },
+        {
+          "order": 2,
+          "description": "Submit the form",
+          "action": "click",
+          "expectedResult": "Input sanitized or rejected"
+        }
+      ],
+      "expectedBehavior": "Input sanitized or rejected",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "shipping_address"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "shipping_address"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "d6c377d7-3e23-4259-985f-03a3de277fe9",
+      "name": "Login - Boundary: password",
+      "description": "Test boundary values for password",
+      "feature": "Login",
+      "userRole": "Admin",
+      "type": "boundary",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter boundary value: Min length - 1 (5)",
+          "action": "type",
+          "input": "xxxxx",
+          "expectedResult": "Validation error"
+        },
+        {
+          "order": 2,
+          "description": "Enter boundary value: Min length (6)",
+          "action": "type",
+          "input": "xxxxxx",
+          "expectedResult": "Accepted"
+        }
+      ],
+      "expectedBehavior": "All boundary values handled correctly",
+      "priority": "medium",
+      "tags": [
+        "boundary",
+        "password"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "password"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "cfa69ff9-b40d-488a-b37d-fff245369b44",
+      "name": "Registration - Boundary: name",
+      "description": "Test boundary values for name",
+      "feature": "Registration",
+      "userRole": "Admin",
+      "type": "boundary",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter boundary value: Min length - 1 (1)",
+          "action": "type",
+          "input": "x",
+          "expectedResult": "Validation error"
+        },
+        {
+          "order": 2,
+          "description": "Enter boundary value: Min length (2)",
+          "action": "type",
+          "input": "xx",
+          "expectedResult": "Accepted"
+        },
+        {
+          "order": 3,
+          "description": "Enter boundary value: Max length (50)",
+          "action": "type",
+          "input": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "expectedResult": "Accepted"
+        },
+        {
+          "order": 4,
+          "description": "Enter boundary value: Max length + 1 (51)",
+          "action": "type",
+          "input": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "expectedResult": "Validation error"
+        }
+      ],
+      "expectedBehavior": "All boundary values handled correctly",
+      "priority": "medium",
+      "tags": [
+        "boundary",
+        "name"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "name"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "0a3cc2f7-066b-41b9-90f3-ad79fe7633f5",
+      "name": "Registration - Boundary: password",
+      "description": "Test boundary values for password",
+      "feature": "Registration",
+      "userRole": "Admin",
+      "type": "boundary",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter boundary value: Min length - 1 (5)",
+          "action": "type",
+          "input": "xxxxx",
+          "expectedResult": "Validation error"
+        },
+        {
+          "order": 2,
+          "description": "Enter boundary value: Min length (6)",
+          "action": "type",
+          "input": "xxxxxx",
+          "expectedResult": "Accepted"
+        }
+      ],
+      "expectedBehavior": "All boundary values handled correctly",
+      "priority": "medium",
+      "tags": [
+        "boundary",
+        "password"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "password"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "199245c5-128d-43b4-b365-22e36f4e64f8",
+      "name": "Place Order - Boundary: quantity",
+      "description": "Test boundary values for quantity",
+      "feature": "Place Order",
+      "userRole": "Admin",
+      "type": "boundary",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter boundary value: Min value - 1 (0)",
+          "action": "type",
+          "input": "0",
+          "expectedResult": "Validation error"
+        },
+        {
+          "order": 2,
+          "description": "Enter boundary value: Min value (1)",
+          "action": "type",
+          "input": "1",
+          "expectedResult": "Accepted"
+        }
+      ],
+      "expectedBehavior": "All boundary values handled correctly",
+      "priority": "medium",
+      "tags": [
+        "boundary",
+        "quantity"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "quantity"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "01828501-0f8b-4031-8502-0db2f17c8f97",
+      "name": "Place Order - Boundary: shipping_address",
+      "description": "Test boundary values for shipping_address",
+      "feature": "Place Order",
+      "userRole": "Admin",
+      "type": "boundary",
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Enter boundary value: Min length - 1 (9)",
+          "action": "type",
+          "input": "xxxxxxxxx",
+          "expectedResult": "Validation error"
+        },
+        {
+          "order": 2,
+          "description": "Enter boundary value: Min length (10)",
+          "action": "type",
+          "input": "xxxxxxxxxx",
+          "expectedResult": "Accepted"
+        },
+        {
+          "order": 3,
+          "description": "Enter boundary value: Max length (200)",
+          "action": "type",
+          "input": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "expectedResult": "Accepted"
+        },
+        {
+          "order": 4,
+          "description": "Enter boundary value: Max length + 1 (201)",
+          "action": "type",
+          "input": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "expectedResult": "Validation error"
+        }
+      ],
+      "expectedBehavior": "All boundary values handled correctly",
+      "priority": "medium",
+      "tags": [
+        "boundary",
+        "shipping_address"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [
+          "shipping_address"
+        ],
+        "integrations": []
+      }
+    },
+    {
+      "id": "24ab478d-ab23-4da8-9b2b-1bcd33cd5536",
+      "name": "Edge Case: Empty State",
+      "description": "Verify application handles empty data state",
+      "feature": "General",
+      "userRole": "Admin",
+      "type": "edge-case",
+      "preconditions": [
+        "New user with no data"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Navigate to main dashboard",
+          "action": "navigate",
+          "expectedResult": "Empty state message displayed"
+        }
+      ],
+      "expectedBehavior": "Graceful empty state handling with helpful messages",
+      "priority": "medium",
+      "tags": [
+        "edge-case",
+        "empty-state"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [],
+        "integrations": []
+      }
+    },
+    {
+      "id": "159451c5-28c6-451e-a86b-6f7d3104d028",
+      "name": "Edge Case: Session Timeout",
+      "description": "Verify session timeout handling",
+      "feature": "Authentication",
+      "userRole": "Admin",
+      "type": "edge-case",
+      "preconditions": [
+        "User is logged in"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Wait for session to expire",
+          "action": "wait",
+          "expectedResult": "Session expires"
+        },
+        {
+          "order": 2,
+          "description": "Attempt to perform action",
+          "action": "click",
+          "expectedResult": "Redirect to login with appropriate message"
+        }
+      ],
+      "expectedBehavior": "User is redirected to login with session expired message",
+      "priority": "high",
+      "tags": [
+        "edge-case",
+        "session",
+        "security"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [],
+        "integrations": []
+      }
+    },
+    {
+      "id": "e8ca1160-6f41-478d-b133-01fdd7de8144",
+      "name": "Edge Case: Network Error",
+      "description": "Verify network error handling",
+      "feature": "General",
+      "userRole": "Admin",
+      "type": "edge-case",
+      "preconditions": [
+        "User is logged in"
+      ],
+      "flow": [
+        {
+          "order": 1,
+          "description": "Simulate network disconnection",
+          "action": "executeScript",
+          "expectedResult": "Network is disconnected"
+        },
+        {
+          "order": 2,
+          "description": "Attempt to save data",
+          "action": "click",
+          "expectedResult": "Appropriate error message displayed"
+        }
+      ],
+      "expectedBehavior": "User sees clear error message about network issues",
+      "priority": "high",
+      "tags": [
+        "edge-case",
+        "network",
+        "error-handling"
+      ],
+      "coverage": {
+        "businessRules": [],
+        "validations": [],
+        "integrations": []
+      }
+    }
+  ],
+  "testCases": [
+    {
+      "id": "TC-e32e32d5-1",
+      "name": "User Login - Happy Path",
+      "description": "User can log into the system",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "positive",
+        "authentication",
+        "login"
+      ],
+      "preconditions": [
+        "User is logged in as Admin"
+      ],
+      "steps": [
+        {
+          "id": "96b218cc-c457-4726-b278-2cd530f15d68",
+          "order": 1,
+          "action": "assert",
+          "description": "User can enter email and password",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Criteria met"
+          }
+        },
+        {
+          "id": "289957a2-6090-4464-a87e-eb3b7b235fc1",
+          "order": 2,
+          "action": "assert",
+          "description": "System validates credentials",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Criteria met"
+          }
+        },
+        {
+          "id": "d6b0ebdf-b1ba-4526-aa51-c3b2348695f3",
+          "order": 3,
+          "action": "assert",
+          "description": "User is redirected to dashboard on success",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Criteria met"
+          }
+        },
+        {
+          "id": "b133f8eb-4aa2-4a6e-9397-82f36ec90f0e",
+          "order": 4,
+          "action": "assert",
+          "description": "Error message shown on invalid credentials",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Criteria met"
+          }
+        }
+      ],
+      "expectedResult": "User can enter email and password; System validates credentials; User is redirected to dashboard on success; Error message shown on invalid credentials",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-c1e51d89-1",
+      "name": "User Registration - Happy Path",
+      "description": "New user can create an account",
+      "category": "functional",
+      "priority": "high",
+      "tags": [
+        "positive",
+        "authentication",
+        "registration"
+      ],
+      "preconditions": [
+        "User is logged in as Admin"
+      ],
+      "steps": [
+        {
+          "id": "2dee2222-4166-48db-876d-85ebe7d30349",
+          "order": 1,
+          "action": "assert",
+          "description": "User can enter name, email, and password",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Criteria met"
+          }
+        },
+        {
+          "id": "f7542531-c22d-4921-83a8-a930acb08080",
+          "order": 2,
+          "action": "assert",
+          "description": "Passwords must match",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Criteria met"
+          }
+        },
+        {
+          "id": "ca834580-71b9-44ca-8d04-9d98bd63301a",
+          "order": 3,
+          "action": "assert",
+          "description": "Email must be unique",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Criteria met"
+          }
+        },
+        {
+          "id": "999e963c-6ec7-443e-81e7-50b2e6d81b4c",
+          "order": 4,
+          "action": "assert",
+          "description": "Terms must be accepted",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Criteria met"
+          }
+        }
+      ],
+      "expectedResult": "User can enter name, email, and password; Passwords must match; Email must be unique; Terms must be accepted",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-4523f06d-1",
+      "name": "Browse Products - Happy Path",
+      "description": "User can view and search products",
+      "category": "functional",
+      "priority": "high",
+      "tags": [
+        "positive",
+        "products",
+        "search"
+      ],
+      "preconditions": [
+        "User is logged in as Admin"
+      ],
+      "steps": [
+        {
+          "id": "92cd578e-f40a-49df-b4a9-22eb649098c7",
+          "order": 1,
+          "action": "assert",
+          "description": "Products are displayed in a table",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Criteria met"
+          }
+        },
+        {
+          "id": "c8ef0824-c26f-41c9-ad37-21b77498a820",
+          "order": 2,
+          "action": "assert",
+          "description": "Can search by name",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Criteria met"
+          }
+        },
+        {
+          "id": "66d23646-871f-4bb2-8ee2-ca583e3b6056",
+          "order": 3,
+          "action": "assert",
+          "description": "Can filter by category",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Criteria met"
+          }
+        }
+      ],
+      "expectedResult": "Products are displayed in a table; Can search by name; Can filter by category",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-2296c7c9-1",
+      "name": "Place Order - Happy Path",
+      "description": "User can place an order for a product",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "positive",
+        "orders",
+        "checkout"
+      ],
+      "preconditions": [
+        "User is logged in as Admin"
+      ],
+      "steps": [
+        {
+          "id": "647d1fa5-f901-4674-ba3d-c7ddc865bd78",
+          "order": 1,
+          "action": "assert",
+          "description": "User can select quantity",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Criteria met"
+          }
+        },
+        {
+          "id": "51ac7860-5342-442f-9e80-f93664551d59",
+          "order": 2,
+          "action": "assert",
+          "description": "User must enter shipping address",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Criteria met"
+          }
+        },
+        {
+          "id": "a390f30b-2d40-4ccb-bf37-e12474a4746d",
+          "order": 3,
+          "action": "assert",
+          "description": "Order is created on submit",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Criteria met"
+          }
+        }
+      ],
+      "expectedResult": "User can select quantity; User must enter shipping address; Order is created on submit",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-5c0a2d7f-1",
+      "name": "Login - Admin Access",
+      "description": "Verify Login functionality for Admin role",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "positive",
+        "Authentication",
+        "admin"
+      ],
+      "preconditions": [
+        "User is logged in as Admin"
+      ],
+      "steps": [
+        {
+          "id": "7e5d6c02-c1f0-4cb6-9bce-7ca144a74efb",
+          "order": 1,
+          "action": "navigate",
+          "description": "Navigate to Login",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Login page loads successfully"
+          }
+        },
+        {
+          "id": "eed08fa9-9bc6-4b89-affb-c44c3f6cfde4",
+          "order": 2,
+          "action": "type",
+          "description": "Enter email",
+          "value": "{{email}}",
+          "assertion": {
+            "type": "textContains",
+            "expected": "email is filled"
+          }
+        },
+        {
+          "id": "7ddb0a11-30b4-46cc-a7a9-1375bb685f3b",
+          "order": 3,
+          "action": "type",
+          "description": "Enter password",
+          "value": "{{password}}",
+          "assertion": {
+            "type": "textContains",
+            "expected": "password is filled"
+          }
+        },
+        {
+          "id": "c808d18a-c5c3-47a8-bfed-84f2e0df3b3c",
+          "order": 4,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Form submitted successfully"
+          }
+        },
+        {
+          "id": "5fa73c53-8b7c-49d3-9aec-970156e7475f",
+          "order": 5,
+          "action": "assert",
+          "description": "Verify redirect",
+          "assertion": {
+            "type": "textContains",
+            "expected": "/dashboard"
+          }
+        }
+      ],
+      "expectedResult": "Admin can successfully use Login",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-584aae94-1",
+      "name": "Login - Regular User Access",
+      "description": "Verify Login functionality for Regular User role",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "positive",
+        "Authentication",
+        "regular user"
+      ],
+      "preconditions": [
+        "User is logged in as Regular User"
+      ],
+      "steps": [
+        {
+          "id": "4ce1cfe6-9bb0-44a8-b28b-9f44f7e91fcf",
+          "order": 1,
+          "action": "navigate",
+          "description": "Navigate to Login",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Login page loads successfully"
+          }
+        },
+        {
+          "id": "74fc7ed2-2816-4e6d-8888-5d043a533e34",
+          "order": 2,
+          "action": "type",
+          "description": "Enter email",
+          "value": "{{email}}",
+          "assertion": {
+            "type": "textContains",
+            "expected": "email is filled"
+          }
+        },
+        {
+          "id": "1a3a97ba-adba-4093-9c44-c8a37efc3ed0",
+          "order": 3,
+          "action": "type",
+          "description": "Enter password",
+          "value": "{{password}}",
+          "assertion": {
+            "type": "textContains",
+            "expected": "password is filled"
+          }
+        },
+        {
+          "id": "4f298cf2-53a3-436a-a05f-fcd2914437bb",
+          "order": 4,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Form submitted successfully"
+          }
+        },
+        {
+          "id": "162d55b0-9bea-4a70-961a-e937c5f5decb",
+          "order": 5,
+          "action": "assert",
+          "description": "Verify redirect",
+          "assertion": {
+            "type": "textContains",
+            "expected": "/dashboard"
+          }
+        }
+      ],
+      "expectedResult": "Regular User can successfully use Login",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-797c5eaa-1",
+      "name": "Registration - Admin Access",
+      "description": "Verify Registration functionality for Admin role",
+      "category": "functional",
+      "priority": "high",
+      "tags": [
+        "positive",
+        "Authentication",
+        "admin"
+      ],
+      "preconditions": [
+        "User is logged in as Admin"
+      ],
+      "steps": [
+        {
+          "id": "bf0985fe-c7dc-44f3-9020-138e14d95f9d",
+          "order": 1,
+          "action": "navigate",
+          "description": "Navigate to Registration",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Registration page loads successfully"
+          }
+        },
+        {
+          "id": "081f47dd-404f-48af-bc51-e2b786df9106",
+          "order": 2,
+          "action": "type",
+          "description": "Enter name",
+          "value": "{{name}}",
+          "assertion": {
+            "type": "textContains",
+            "expected": "name is filled"
+          }
+        },
+        {
+          "id": "749218b5-9ea7-4ba7-bd59-1be41970bd5f",
+          "order": 3,
+          "action": "type",
+          "description": "Enter email",
+          "value": "{{email}}",
+          "assertion": {
+            "type": "textContains",
+            "expected": "email is filled"
+          }
+        },
+        {
+          "id": "5ea1abbe-8e9d-43d4-8053-b12bef4c84f4",
+          "order": 4,
+          "action": "type",
+          "description": "Enter password",
+          "value": "{{password}}",
+          "assertion": {
+            "type": "textContains",
+            "expected": "password is filled"
+          }
+        },
+        {
+          "id": "e7f7a7a2-f135-4323-8f2b-c76b7484da49",
+          "order": 5,
+          "action": "type",
+          "description": "Enter confirm_password",
+          "value": "{{confirm_password}}",
+          "assertion": {
+            "type": "textContains",
+            "expected": "confirm_password is filled"
+          }
+        },
+        {
+          "id": "2b412368-2732-4a88-b52d-60722640d706",
+          "order": 6,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Form submitted successfully"
+          }
+        },
+        {
+          "id": "e4567567-f5a8-4fd8-8004-3b597f371a7e",
+          "order": 7,
+          "action": "assert",
+          "description": "Verify redirect",
+          "assertion": {
+            "type": "textContains",
+            "expected": "/dashboard"
+          }
+        }
+      ],
+      "expectedResult": "Admin can successfully use Registration",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-3b41b98b-1",
+      "name": "Registration - Regular User Access",
+      "description": "Verify Registration functionality for Regular User role",
+      "category": "functional",
+      "priority": "high",
+      "tags": [
+        "positive",
+        "Authentication",
+        "regular user"
+      ],
+      "preconditions": [
+        "User is logged in as Regular User"
+      ],
+      "steps": [
+        {
+          "id": "f7c7753d-e6ee-4927-8d14-5d9c5ceaf5a3",
+          "order": 1,
+          "action": "navigate",
+          "description": "Navigate to Registration",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Registration page loads successfully"
+          }
+        },
+        {
+          "id": "c25a2d43-752f-40cc-800a-5720702e1e45",
+          "order": 2,
+          "action": "type",
+          "description": "Enter name",
+          "value": "{{name}}",
+          "assertion": {
+            "type": "textContains",
+            "expected": "name is filled"
+          }
+        },
+        {
+          "id": "52b46bc6-e827-44ed-ac24-35611a95265a",
+          "order": 3,
+          "action": "type",
+          "description": "Enter email",
+          "value": "{{email}}",
+          "assertion": {
+            "type": "textContains",
+            "expected": "email is filled"
+          }
+        },
+        {
+          "id": "ee241412-260c-4dea-8348-fa6198bf2a25",
+          "order": 4,
+          "action": "type",
+          "description": "Enter password",
+          "value": "{{password}}",
+          "assertion": {
+            "type": "textContains",
+            "expected": "password is filled"
+          }
+        },
+        {
+          "id": "bbc2c3a5-1092-46bc-9d80-76f7864c8503",
+          "order": 5,
+          "action": "type",
+          "description": "Enter confirm_password",
+          "value": "{{confirm_password}}",
+          "assertion": {
+            "type": "textContains",
+            "expected": "confirm_password is filled"
+          }
+        },
+        {
+          "id": "afa35e5a-d994-4df1-a8d3-8b8de0d7e5b6",
+          "order": 6,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Form submitted successfully"
+          }
+        },
+        {
+          "id": "20190e25-ad6f-4ede-9fce-085820377e2c",
+          "order": 7,
+          "action": "assert",
+          "description": "Verify redirect",
+          "assertion": {
+            "type": "textContains",
+            "expected": "/dashboard"
+          }
+        }
+      ],
+      "expectedResult": "Regular User can successfully use Registration",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-a2db92ee-1",
+      "name": "Place Order - Admin Access",
+      "description": "Verify Place Order functionality for Admin role",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "positive",
+        "Orders",
+        "admin"
+      ],
+      "preconditions": [
+        "User is logged in as Admin"
+      ],
+      "steps": [
+        {
+          "id": "b5a579fc-ec8a-427e-9243-d54c9ea5b348",
+          "order": 1,
+          "action": "navigate",
+          "description": "Navigate to Place Order",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Place Order page loads successfully"
+          }
+        },
+        {
+          "id": "89d42c96-d907-4a50-9f74-88c210ded9c5",
+          "order": 2,
+          "action": "type",
+          "description": "Enter quantity",
+          "value": "{{quantity}}",
+          "assertion": {
+            "type": "textContains",
+            "expected": "quantity is filled"
+          }
+        },
+        {
+          "id": "bb0c2eb7-4b92-414e-b6b3-20563c0da2cd",
+          "order": 3,
+          "action": "type",
+          "description": "Enter shipping_address",
+          "value": "{{shipping_address}}",
+          "assertion": {
+            "type": "textContains",
+            "expected": "shipping_address is filled"
+          }
+        },
+        {
+          "id": "26e44050-340f-4d4a-a399-3011c9d371c1",
+          "order": 4,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Form submitted successfully"
+          }
+        },
+        {
+          "id": "2f3cb8f2-ce47-4955-8090-4a7e15ca8d6c",
+          "order": 5,
+          "action": "assert",
+          "description": "Verify order_confirmation",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Order placed successfully"
+          }
+        }
+      ],
+      "expectedResult": "Admin can successfully use Place Order",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-e0c1d403-1",
+      "name": "Place Order - Regular User Access",
+      "description": "Verify Place Order functionality for Regular User role",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "positive",
+        "Orders",
+        "regular user"
+      ],
+      "preconditions": [
+        "User is logged in as Regular User"
+      ],
+      "steps": [
+        {
+          "id": "81874227-b224-441c-a583-09db623da771",
+          "order": 1,
+          "action": "navigate",
+          "description": "Navigate to Place Order",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Place Order page loads successfully"
+          }
+        },
+        {
+          "id": "8e30e995-5087-41a8-b75d-be24482dfb69",
+          "order": 2,
+          "action": "type",
+          "description": "Enter quantity",
+          "value": "{{quantity}}",
+          "assertion": {
+            "type": "textContains",
+            "expected": "quantity is filled"
+          }
+        },
+        {
+          "id": "9eacf4fa-e109-421d-9d7f-686cb05f1696",
+          "order": 3,
+          "action": "type",
+          "description": "Enter shipping_address",
+          "value": "{{shipping_address}}",
+          "assertion": {
+            "type": "textContains",
+            "expected": "shipping_address is filled"
+          }
+        },
+        {
+          "id": "95285e3c-629b-4003-8fb0-37c96edc5a66",
+          "order": 4,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Form submitted successfully"
+          }
+        },
+        {
+          "id": "ef8910bf-4040-410c-a163-35e453e7e206",
+          "order": 5,
+          "action": "assert",
+          "description": "Verify order_confirmation",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Order placed successfully"
+          }
+        }
+      ],
+      "expectedResult": "Regular User can successfully use Place Order",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-8a1984a6-1",
+      "name": "Critical Flow: Login and Place Order",
+      "description": "Complete flow from login to order placement",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "critical-flow",
+        "e2e",
+        "very-high"
+      ],
+      "preconditions": [
+        "User is logged in as Admin"
+      ],
+      "steps": [
+        {
+          "id": "1b02cdcb-83e1-490c-9af3-80cb864115f8",
+          "order": 1,
+          "action": "click",
+          "description": "Navigate to login page",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Step completes successfully"
+          }
+        },
+        {
+          "id": "1a9bf2c3-235b-4f74-9b85-bd459d725aa6",
+          "order": 2,
+          "action": "click",
+          "description": "Enter valid credentials",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Step completes successfully"
+          }
+        },
+        {
+          "id": "bc472c01-7c9b-43d6-bc45-25c7e3600fbe",
+          "order": 3,
+          "action": "click",
+          "description": "Click login button",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Step completes successfully"
+          }
+        },
+        {
+          "id": "2bfbc606-8cb4-46c9-a7d5-6e8f2454a699",
+          "order": 4,
+          "action": "click",
+          "description": "Navigate to products",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Step completes successfully"
+          }
+        },
+        {
+          "id": "5d92a446-1982-4e56-a878-e357068d1efa",
+          "order": 5,
+          "action": "click",
+          "description": "Click order button on a product",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Step completes successfully"
+          }
+        },
+        {
+          "id": "248a3d06-4d8c-42bf-b178-ea600a715a5f",
+          "order": 6,
+          "action": "click",
+          "description": "Enter quantity and shipping address",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Step completes successfully"
+          }
+        },
+        {
+          "id": "704b2f2f-f866-4e5b-8f2e-ec2b71a15eb1",
+          "order": 7,
+          "action": "click",
+          "description": "Submit order",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Order is created"
+          }
+        }
+      ],
+      "expectedResult": "Order is created",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-fb095ba8-1",
+      "name": "Authorization: Regular User Restrictions",
+      "description": "Verify Regular User cannot access restricted features",
+      "category": "functional",
+      "priority": "high",
+      "tags": [
+        "negative",
+        "authorization",
+        "security"
+      ],
+      "preconditions": [
+        "User is logged in as Regular User"
+      ],
+      "steps": [
+        {
+          "id": "aa801fb4-baa0-41c9-b9ce-bac31bb4b848",
+          "order": 1,
+          "action": "navigate",
+          "description": "Attempt to access admin_panel",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Access denied or redirect to authorized page"
+          }
+        },
+        {
+          "id": "838f01e1-fc87-4151-88ca-4d51668bacf4",
+          "order": 2,
+          "action": "navigate",
+          "description": "Attempt to access manage_users",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Access denied or redirect to authorized page"
+          }
+        },
+        {
+          "id": "80c51e8d-8900-4123-b3ab-1e53e85d9ab6",
+          "order": 3,
+          "action": "navigate",
+          "description": "Attempt to access manage_products",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Access denied or redirect to authorized page"
+          }
+        }
+      ],
+      "expectedResult": "User cannot access restricted features",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-ad794213-1",
+      "name": "Login - missing-required: email",
+      "description": "Verify error handling for missing-required on email",
+      "category": "functional",
+      "priority": "high",
+      "tags": [
+        "negative",
+        "missing-required",
+        "email"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "704fb414-61df-4bbd-8140-0590d6c18975",
+          "order": 1,
+          "action": "type",
+          "description": "Enter missing-required value in email",
+          "value": "",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "35ba0ed4-31be-4da2-9d19-5c4f290134e5",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "email is required"
+          }
+        }
+      ],
+      "expectedResult": "email is required",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-571ba8b5-1",
+      "name": "Login - format-error: email",
+      "description": "Verify error handling for format-error on email",
+      "category": "functional",
+      "priority": "medium",
+      "tags": [
+        "negative",
+        "format-error",
+        "email"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "0831ea30-d301-40b9-802e-c87eec90e5dd",
+          "order": 1,
+          "action": "type",
+          "description": "Enter format-error value in email",
+          "value": "invalid-email",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "76b08934-8a8d-41fe-a194-df084442e7de",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Invalid email format"
+          }
+        }
+      ],
+      "expectedResult": "Invalid email format",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-9dc9df9c-1",
+      "name": "Login - injection: email",
+      "description": "Verify error handling for injection on email",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "email"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "0c53d83e-84b4-46f8-8821-df07b9e6bdd6",
+          "order": 1,
+          "action": "type",
+          "description": "Enter injection value in email",
+          "value": "'; DROP TABLE users; --",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "27226073-b5f9-4728-853c-dbe24e6b310b",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Input sanitized or rejected"
+          }
+        }
+      ],
+      "expectedResult": "Input sanitized or rejected",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-e8ea74b4-1",
+      "name": "Login - injection: email",
+      "description": "Verify error handling for injection on email",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "email"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "1e6edd0e-ca02-40fe-b8d3-140f2a619eac",
+          "order": 1,
+          "action": "type",
+          "description": "Enter injection value in email",
+          "value": "<script>alert(\"xss\")</script>",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "cd62fd84-b51b-413e-bda4-7cbe341a37f0",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Input sanitized or rejected"
+          }
+        }
+      ],
+      "expectedResult": "Input sanitized or rejected",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-91af139d-1",
+      "name": "Login - missing-required: password",
+      "description": "Verify error handling for missing-required on password",
+      "category": "functional",
+      "priority": "high",
+      "tags": [
+        "negative",
+        "missing-required",
+        "password"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "1588c3f6-d803-4714-88bd-c20032a5b639",
+          "order": 1,
+          "action": "type",
+          "description": "Enter missing-required value in password",
+          "value": "",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "a8c78716-3059-45a6-a147-29e11273eb01",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "password is required"
+          }
+        }
+      ],
+      "expectedResult": "password is required",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-2a84c08c-1",
+      "name": "Login - injection: password",
+      "description": "Verify error handling for injection on password",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "password"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "6208a774-9e27-48cb-8dda-375c98a2982b",
+          "order": 1,
+          "action": "type",
+          "description": "Enter injection value in password",
+          "value": "'; DROP TABLE users; --",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "20b4a3c7-8575-4865-b2d9-cccb5708b358",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Input sanitized or rejected"
+          }
+        }
+      ],
+      "expectedResult": "Input sanitized or rejected",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-7d6a99f8-1",
+      "name": "Login - injection: password",
+      "description": "Verify error handling for injection on password",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "password"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "3e6db81e-ecba-4936-893c-e22a06977d44",
+          "order": 1,
+          "action": "type",
+          "description": "Enter injection value in password",
+          "value": "<script>alert(\"xss\")</script>",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "11f73b1f-abe3-40e4-8a2f-026112a7709e",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Input sanitized or rejected"
+          }
+        }
+      ],
+      "expectedResult": "Input sanitized or rejected",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-9d7713e3-1",
+      "name": "Registration - missing-required: name",
+      "description": "Verify error handling for missing-required on name",
+      "category": "functional",
+      "priority": "high",
+      "tags": [
+        "negative",
+        "missing-required",
+        "name"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "14904202-92c3-42e2-b847-9819259cf8f1",
+          "order": 1,
+          "action": "type",
+          "description": "Enter missing-required value in name",
+          "value": "",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "713dd2e1-3069-4bc4-8d1e-5a3301c35725",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "name is required"
+          }
+        }
+      ],
+      "expectedResult": "name is required",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-030e7d8d-1",
+      "name": "Registration - boundary-violation: name",
+      "description": "Verify error handling for boundary-violation on name",
+      "category": "functional",
+      "priority": "medium",
+      "tags": [
+        "negative",
+        "boundary-violation",
+        "name"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "495baaa0-bb11-497f-85fd-a19fd1f52d3a",
+          "order": 1,
+          "action": "type",
+          "description": "Enter boundary-violation value in name",
+          "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "fc0146db-dccb-4db2-a0da-01ddf1e26028",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "name exceeds maximum length"
+          }
+        }
+      ],
+      "expectedResult": "name exceeds maximum length",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-a3e519ab-1",
+      "name": "Registration - injection: name",
+      "description": "Verify error handling for injection on name",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "name"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "4dd518fe-0dae-43df-9fae-669875fa8371",
+          "order": 1,
+          "action": "type",
+          "description": "Enter injection value in name",
+          "value": "'; DROP TABLE users; --",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "a6168521-c683-4727-ab18-fb4cb6487372",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Input sanitized or rejected"
+          }
+        }
+      ],
+      "expectedResult": "Input sanitized or rejected",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-c2bcf3d1-1",
+      "name": "Registration - injection: name",
+      "description": "Verify error handling for injection on name",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "name"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "ea473207-6299-44f5-bbfe-688fbfb84cec",
+          "order": 1,
+          "action": "type",
+          "description": "Enter injection value in name",
+          "value": "<script>alert(\"xss\")</script>",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "f52596df-efeb-41ac-9037-88f81d962d2e",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Input sanitized or rejected"
+          }
+        }
+      ],
+      "expectedResult": "Input sanitized or rejected",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-2ccff0e3-1",
+      "name": "Registration - missing-required: email",
+      "description": "Verify error handling for missing-required on email",
+      "category": "functional",
+      "priority": "high",
+      "tags": [
+        "negative",
+        "missing-required",
+        "email"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "fd3316ab-631d-413a-bd90-9409012bd12c",
+          "order": 1,
+          "action": "type",
+          "description": "Enter missing-required value in email",
+          "value": "",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "fdfa9cbe-2016-481b-aa3e-7d07b89cd764",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "email is required"
+          }
+        }
+      ],
+      "expectedResult": "email is required",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-def35031-1",
+      "name": "Registration - format-error: email",
+      "description": "Verify error handling for format-error on email",
+      "category": "functional",
+      "priority": "medium",
+      "tags": [
+        "negative",
+        "format-error",
+        "email"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "6f88fb3c-d48b-4836-84ca-646dba214a8d",
+          "order": 1,
+          "action": "type",
+          "description": "Enter format-error value in email",
+          "value": "invalid-email",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "2f40bdeb-7535-4607-90fe-74e08bcae470",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Invalid email format"
+          }
+        }
+      ],
+      "expectedResult": "Invalid email format",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-cdef2170-1",
+      "name": "Registration - injection: email",
+      "description": "Verify error handling for injection on email",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "email"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "ac19c0f2-d04f-4a2d-85a6-f89d3042c886",
+          "order": 1,
+          "action": "type",
+          "description": "Enter injection value in email",
+          "value": "'; DROP TABLE users; --",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "18af0244-6369-4b19-b5ff-fd85135e82b2",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Input sanitized or rejected"
+          }
+        }
+      ],
+      "expectedResult": "Input sanitized or rejected",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-4ad3f2e7-1",
+      "name": "Registration - injection: email",
+      "description": "Verify error handling for injection on email",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "email"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "293674a1-2c99-4193-8b07-3f12a33dfdc9",
+          "order": 1,
+          "action": "type",
+          "description": "Enter injection value in email",
+          "value": "<script>alert(\"xss\")</script>",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "8e5727c6-3df8-4811-9b01-5593b93ffa1d",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Input sanitized or rejected"
+          }
+        }
+      ],
+      "expectedResult": "Input sanitized or rejected",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-fa43b3a7-1",
+      "name": "Registration - missing-required: password",
+      "description": "Verify error handling for missing-required on password",
+      "category": "functional",
+      "priority": "high",
+      "tags": [
+        "negative",
+        "missing-required",
+        "password"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "dcf44a8c-b5dd-4ac7-ab38-b7f2a520b186",
+          "order": 1,
+          "action": "type",
+          "description": "Enter missing-required value in password",
+          "value": "",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "77dbbae0-8a1e-45c6-82d3-33a11a313e74",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "password is required"
+          }
+        }
+      ],
+      "expectedResult": "password is required",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-ea439932-1",
+      "name": "Registration - injection: password",
+      "description": "Verify error handling for injection on password",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "password"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "52b5eb09-4f10-4a05-a456-bef918e24d13",
+          "order": 1,
+          "action": "type",
+          "description": "Enter injection value in password",
+          "value": "'; DROP TABLE users; --",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "8b047990-80d9-431b-b804-ba7a2ea554df",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Input sanitized or rejected"
+          }
+        }
+      ],
+      "expectedResult": "Input sanitized or rejected",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-c2b659d5-1",
+      "name": "Registration - injection: password",
+      "description": "Verify error handling for injection on password",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "password"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "b1212334-2a70-4415-8884-fa692c9d1760",
+          "order": 1,
+          "action": "type",
+          "description": "Enter injection value in password",
+          "value": "<script>alert(\"xss\")</script>",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "94bfa073-37a1-417f-9946-afa5633dea4a",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Input sanitized or rejected"
+          }
+        }
+      ],
+      "expectedResult": "Input sanitized or rejected",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-52ef0321-1",
+      "name": "Registration - missing-required: confirm_password",
+      "description": "Verify error handling for missing-required on confirm_password",
+      "category": "functional",
+      "priority": "high",
+      "tags": [
+        "negative",
+        "missing-required",
+        "confirm_password"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "5e7e7992-e008-4e21-b38b-d9011c428948",
+          "order": 1,
+          "action": "type",
+          "description": "Enter missing-required value in confirm_password",
+          "value": "",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "d90b61e1-7d57-409b-a240-677ce8d9cf9a",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "confirm_password is required"
+          }
+        }
+      ],
+      "expectedResult": "confirm_password is required",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-70538ded-1",
+      "name": "Registration - injection: confirm_password",
+      "description": "Verify error handling for injection on confirm_password",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "confirm_password"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "c43004d1-4bd8-4c42-b0d6-3f5a547ce955",
+          "order": 1,
+          "action": "type",
+          "description": "Enter injection value in confirm_password",
+          "value": "'; DROP TABLE users; --",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "1a3f93c3-1862-4c91-9197-1b84d0acdf3f",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Input sanitized or rejected"
+          }
+        }
+      ],
+      "expectedResult": "Input sanitized or rejected",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-33d2e3a0-1",
+      "name": "Registration - injection: confirm_password",
+      "description": "Verify error handling for injection on confirm_password",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "confirm_password"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "0e10c860-efdc-442f-9afe-0b45d973ee69",
+          "order": 1,
+          "action": "type",
+          "description": "Enter injection value in confirm_password",
+          "value": "<script>alert(\"xss\")</script>",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "2554eb97-c7a3-4826-a55c-913ad7c1e0a6",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Input sanitized or rejected"
+          }
+        }
+      ],
+      "expectedResult": "Input sanitized or rejected",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-5d685c6d-1",
+      "name": "Place Order - missing-required: quantity",
+      "description": "Verify error handling for missing-required on quantity",
+      "category": "functional",
+      "priority": "high",
+      "tags": [
+        "negative",
+        "missing-required",
+        "quantity"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "4fcff7b2-5740-4901-8770-744872900664",
+          "order": 1,
+          "action": "type",
+          "description": "Enter missing-required value in quantity",
+          "value": "",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "7bde7213-ba31-464d-9300-ef2576f18e7d",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "quantity is required"
+          }
+        }
+      ],
+      "expectedResult": "quantity is required",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-44f8d4f3-1",
+      "name": "Place Order - invalid-input: quantity",
+      "description": "Verify error handling for invalid-input on quantity",
+      "category": "functional",
+      "priority": "medium",
+      "tags": [
+        "negative",
+        "invalid-input",
+        "quantity"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "977399bd-c9c8-4838-ac15-0b841f823695",
+          "order": 1,
+          "action": "type",
+          "description": "Enter invalid-input value in quantity",
+          "value": "abc",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "951c2d67-0c3a-4532-a8e0-a1e8b812b016",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "quantity must be a number"
+          }
+        }
+      ],
+      "expectedResult": "quantity must be a number",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-8fc50abf-1",
+      "name": "Place Order - injection: quantity",
+      "description": "Verify error handling for injection on quantity",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "quantity"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "43181ead-b461-4629-9860-b10f6142ab0b",
+          "order": 1,
+          "action": "type",
+          "description": "Enter injection value in quantity",
+          "value": "'; DROP TABLE users; --",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "dcf6d022-6cfc-4965-b74a-316c0245e381",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Input sanitized or rejected"
+          }
+        }
+      ],
+      "expectedResult": "Input sanitized or rejected",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-22b419d8-1",
+      "name": "Place Order - injection: quantity",
+      "description": "Verify error handling for injection on quantity",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "quantity"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "22e573a1-6e43-4702-8b24-7b52a5687795",
+          "order": 1,
+          "action": "type",
+          "description": "Enter injection value in quantity",
+          "value": "<script>alert(\"xss\")</script>",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "f602afe6-eb66-4275-80aa-959a7215d86e",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Input sanitized or rejected"
+          }
+        }
+      ],
+      "expectedResult": "Input sanitized or rejected",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-095cbf09-1",
+      "name": "Place Order - missing-required: shipping_address",
+      "description": "Verify error handling for missing-required on shipping_address",
+      "category": "functional",
+      "priority": "high",
+      "tags": [
+        "negative",
+        "missing-required",
+        "shipping_address"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "6b5af0f0-a1ba-49fb-adb6-b87e43c69771",
+          "order": 1,
+          "action": "type",
+          "description": "Enter missing-required value in shipping_address",
+          "value": "",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "a0711d05-aa83-4a5c-a827-97999937424b",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "shipping_address is required"
+          }
+        }
+      ],
+      "expectedResult": "shipping_address is required",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-d6956fe5-1",
+      "name": "Place Order - boundary-violation: shipping_address",
+      "description": "Verify error handling for boundary-violation on shipping_address",
+      "category": "functional",
+      "priority": "medium",
+      "tags": [
+        "negative",
+        "boundary-violation",
+        "shipping_address"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "84c6a8a2-128d-4d4e-83cd-6b9dd5b6921c",
+          "order": 1,
+          "action": "type",
+          "description": "Enter boundary-violation value in shipping_address",
+          "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "9c761787-eb14-4852-8c61-c5b153ec6c5a",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "shipping_address exceeds maximum length"
+          }
+        }
+      ],
+      "expectedResult": "shipping_address exceeds maximum length",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-7c9f052c-1",
+      "name": "Place Order - injection: shipping_address",
+      "description": "Verify error handling for injection on shipping_address",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "shipping_address"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "0c4b729d-27d7-49e6-a2d8-521c3e0a2d00",
+          "order": 1,
+          "action": "type",
+          "description": "Enter injection value in shipping_address",
+          "value": "'; DROP TABLE users; --",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "9998773b-24ec-4c96-b98e-34308f171ab0",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Input sanitized or rejected"
+          }
+        }
+      ],
+      "expectedResult": "Input sanitized or rejected",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-ce4c5dd4-1",
+      "name": "Place Order - injection: shipping_address",
+      "description": "Verify error handling for injection on shipping_address",
+      "category": "functional",
+      "priority": "critical",
+      "tags": [
+        "negative",
+        "injection",
+        "shipping_address"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "cc04e233-932a-4f73-afb1-523cc8fb385a",
+          "order": 1,
+          "action": "type",
+          "description": "Enter injection value in shipping_address",
+          "value": "<script>alert(\"xss\")</script>",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Value is entered"
+          }
+        },
+        {
+          "id": "11dddca7-f8fb-4912-8d44-63c7e62e4383",
+          "order": 2,
+          "action": "click",
+          "description": "Submit the form",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Input sanitized or rejected"
+          }
+        }
+      ],
+      "expectedResult": "Input sanitized or rejected",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-d6c377d7-1",
+      "name": "Login - Boundary: password",
+      "description": "Test boundary values for password",
+      "category": "functional",
+      "priority": "medium",
+      "tags": [
+        "boundary",
+        "password"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "f0a6d21f-1722-4755-a3af-747d25f35b75",
+          "order": 1,
+          "action": "type",
+          "description": "Enter boundary value: Min length - 1 (5)",
+          "value": "xxxxx",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Validation error"
+          }
+        },
+        {
+          "id": "2697a41c-829a-4769-9418-11f1fdf00aa9",
+          "order": 2,
+          "action": "type",
+          "description": "Enter boundary value: Min length (6)",
+          "value": "xxxxxx",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Accepted"
+          }
+        }
+      ],
+      "expectedResult": "All boundary values handled correctly",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-cfa69ff9-1",
+      "name": "Registration - Boundary: name",
+      "description": "Test boundary values for name",
+      "category": "functional",
+      "priority": "medium",
+      "tags": [
+        "boundary",
+        "name"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "8939b460-1d82-4457-9fab-d394f24b29f9",
+          "order": 1,
+          "action": "type",
+          "description": "Enter boundary value: Min length - 1 (1)",
+          "value": "x",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Validation error"
+          }
+        },
+        {
+          "id": "022f5cd9-8f7d-4ba2-ba3b-27a81d9056c5",
+          "order": 2,
+          "action": "type",
+          "description": "Enter boundary value: Min length (2)",
+          "value": "xx",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Accepted"
+          }
+        },
+        {
+          "id": "d324aa76-bbe3-4c87-a714-4259e9c951b2",
+          "order": 3,
+          "action": "type",
+          "description": "Enter boundary value: Max length (50)",
+          "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Accepted"
+          }
+        },
+        {
+          "id": "0fc1fa3f-f42c-4e97-96c4-7a4906a2bcf4",
+          "order": 4,
+          "action": "type",
+          "description": "Enter boundary value: Max length + 1 (51)",
+          "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Validation error"
+          }
+        }
+      ],
+      "expectedResult": "All boundary values handled correctly",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-0a3cc2f7-1",
+      "name": "Registration - Boundary: password",
+      "description": "Test boundary values for password",
+      "category": "functional",
+      "priority": "medium",
+      "tags": [
+        "boundary",
+        "password"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "d5075631-c1fb-43df-b9d9-2d91406a8c76",
+          "order": 1,
+          "action": "type",
+          "description": "Enter boundary value: Min length - 1 (5)",
+          "value": "xxxxx",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Validation error"
+          }
+        },
+        {
+          "id": "bec161b6-5b65-4f26-8abe-3894c14c7fb7",
+          "order": 2,
+          "action": "type",
+          "description": "Enter boundary value: Min length (6)",
+          "value": "xxxxxx",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Accepted"
+          }
+        }
+      ],
+      "expectedResult": "All boundary values handled correctly",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-199245c5-1",
+      "name": "Place Order - Boundary: quantity",
+      "description": "Test boundary values for quantity",
+      "category": "functional",
+      "priority": "medium",
+      "tags": [
+        "boundary",
+        "quantity"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "3a0336f2-d5b1-42c6-b512-2808777e9b96",
+          "order": 1,
+          "action": "type",
+          "description": "Enter boundary value: Min value - 1 (0)",
+          "value": "0",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Validation error"
+          }
+        },
+        {
+          "id": "a9174d62-2666-4e0d-b54c-955dc6d49433",
+          "order": 2,
+          "action": "type",
+          "description": "Enter boundary value: Min value (1)",
+          "value": "1",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Accepted"
+          }
+        }
+      ],
+      "expectedResult": "All boundary values handled correctly",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-01828501-1",
+      "name": "Place Order - Boundary: shipping_address",
+      "description": "Test boundary values for shipping_address",
+      "category": "functional",
+      "priority": "medium",
+      "tags": [
+        "boundary",
+        "shipping_address"
+      ],
+      "preconditions": [
+        "User is on the feature page"
+      ],
+      "steps": [
+        {
+          "id": "8eec1d0c-9ef2-4eee-8838-1e18f1b7fe33",
+          "order": 1,
+          "action": "type",
+          "description": "Enter boundary value: Min length - 1 (9)",
+          "value": "xxxxxxxxx",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Validation error"
+          }
+        },
+        {
+          "id": "8ecf6958-78ac-4255-9fff-03939c3a29d9",
+          "order": 2,
+          "action": "type",
+          "description": "Enter boundary value: Min length (10)",
+          "value": "xxxxxxxxxx",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Accepted"
+          }
+        },
+        {
+          "id": "23416ee2-53cf-49f8-a9a5-0adc1e0c3cf9",
+          "order": 3,
+          "action": "type",
+          "description": "Enter boundary value: Max length (200)",
+          "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Accepted"
+          }
+        },
+        {
+          "id": "da2313e6-7464-4cd9-80a6-0280ed47573a",
+          "order": 4,
+          "action": "type",
+          "description": "Enter boundary value: Max length + 1 (201)",
+          "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Validation error"
+          }
+        }
+      ],
+      "expectedResult": "All boundary values handled correctly",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-24ab478d-1",
+      "name": "Edge Case: Empty State",
+      "description": "Verify application handles empty data state",
+      "category": "regression",
+      "priority": "medium",
+      "tags": [
+        "edge-case",
+        "empty-state"
+      ],
+      "preconditions": [
+        "New user with no data"
+      ],
+      "steps": [
+        {
+          "id": "f2050baa-e6f9-4ce0-a3bd-779a96a59e35",
+          "order": 1,
+          "action": "navigate",
+          "description": "Navigate to main dashboard",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Empty state message displayed"
+          }
+        }
+      ],
+      "expectedResult": "Graceful empty state handling with helpful messages",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-159451c5-1",
+      "name": "Edge Case: Session Timeout",
+      "description": "Verify session timeout handling",
+      "category": "regression",
+      "priority": "high",
+      "tags": [
+        "edge-case",
+        "session",
+        "security"
+      ],
+      "preconditions": [
+        "User is logged in"
+      ],
+      "steps": [
+        {
+          "id": "bcb5fe30-1f1b-4217-af1e-bc08d4ae038a",
+          "order": 1,
+          "action": "wait",
+          "description": "Wait for session to expire",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Session expires"
+          }
+        },
+        {
+          "id": "00a236e9-d4c7-484f-bdf8-4c1ed3f4faff",
+          "order": 2,
+          "action": "click",
+          "description": "Attempt to perform action",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Redirect to login with appropriate message"
+          }
+        }
+      ],
+      "expectedResult": "User is redirected to login with session expired message",
+      "timeout": 60000,
+      "retries": 1
+    },
+    {
+      "id": "TC-e8ca1160-1",
+      "name": "Edge Case: Network Error",
+      "description": "Verify network error handling",
+      "category": "regression",
+      "priority": "high",
+      "tags": [
+        "edge-case",
+        "network",
+        "error-handling"
+      ],
+      "preconditions": [
+        "User is logged in"
+      ],
+      "steps": [
+        {
+          "id": "c3d68a47-87fc-48a9-868c-501115141fc4",
+          "order": 1,
+          "action": "executeScript",
+          "description": "Simulate network disconnection",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Network is disconnected"
+          }
+        },
+        {
+          "id": "487151b4-a390-4fe0-8a9d-2086606058e2",
+          "order": 2,
+          "action": "click",
+          "description": "Attempt to save data",
+          "assertion": {
+            "type": "textContains",
+            "expected": "Appropriate error message displayed"
+          }
+        }
+      ],
+      "expectedResult": "User sees clear error message about network issues",
+      "timeout": 60000,
+      "retries": 1
+    }
+  ],
+  "testData": [
+    {
+      "id": "7a6b740f-3329-4d29-9d6a-35c0df18c6c5",
+      "name": "Login - Valid Data",
+      "description": "Valid test data for Login",
+      "type": "valid",
+      "values": {
+        "email": "test@example.com",
+        "password": "SecureP@ss123"
+      },
+      "expectedOutcome": "success"
+    },
+    {
+      "id": "fbf70864-45b4-488d-88f6-ac84d2bf734f",
+      "name": "Login - Invalid email",
+      "description": "Invalid email for Login",
+      "type": "invalid",
+      "values": {
+        "email": "invalid-email",
+        "password": "SecureP@ss123"
+      },
+      "expectedOutcome": "error",
+      "errorMessage": "Invalid email"
+    },
+    {
+      "id": "4d2eba3b-c32a-4826-a44e-13d82c215e1f",
+      "name": "Login - Invalid password",
+      "description": "Invalid password for Login",
+      "type": "invalid",
+      "values": {
+        "email": "test@example.com",
+        "password": "a"
+      },
+      "expectedOutcome": "error",
+      "errorMessage": "Invalid password"
+    },
+    {
+      "id": "e704abe9-df58-4c20-9e1b-75481dd18e7b",
+      "name": "Login - Min length - 1 (5)",
+      "description": "Boundary value Min length - 1 (5) for password",
+      "type": "boundary",
+      "values": {
+        "email": "test@example.com",
+        "password": "xxxxx"
+      },
+      "expectedOutcome": "error",
+      "errorMessage": "Value out of range for password"
+    },
+    {
+      "id": "accd5f94-1ac9-4ce2-85a3-10dffb80cbd4",
+      "name": "Login - Min length (6)",
+      "description": "Boundary value Min length (6) for password",
+      "type": "boundary",
+      "values": {
+        "email": "test@example.com",
+        "password": "xxxxxx"
+      },
+      "expectedOutcome": "success"
+    },
+    {
+      "id": "657b0923-4ee1-4108-9fb4-feb862174f22",
+      "name": "Registration - Valid Data",
+      "description": "Valid test data for Registration",
+      "type": "valid",
+      "values": {
+        "name": "Test Value",
+        "email": "test@example.com",
+        "password": "SecureP@ss123",
+        "confirm_password": "SecureP@ss123"
+      },
+      "expectedOutcome": "success"
+    },
+    {
+      "id": "40293631-b42b-4198-ac95-6e5d3d01ef5c",
+      "name": "Registration - Invalid name",
+      "description": "Invalid name for Registration",
+      "type": "invalid",
+      "values": {
+        "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "email": "test@example.com",
+        "password": "SecureP@ss123",
+        "confirm_password": "SecureP@ss123"
+      },
+      "expectedOutcome": "error",
+      "errorMessage": "Invalid name"
+    },
+    {
+      "id": "cc4f6fd3-fe72-4b85-bce7-0fbbe7755764",
+      "name": "Registration - Invalid email",
+      "description": "Invalid email for Registration",
+      "type": "invalid",
+      "values": {
+        "name": "Test Value",
+        "email": "invalid-email",
+        "password": "SecureP@ss123",
+        "confirm_password": "SecureP@ss123"
+      },
+      "expectedOutcome": "error",
+      "errorMessage": "Invalid email"
+    },
+    {
+      "id": "8fa2778f-1601-4ffc-875c-a2c049ecc5d7",
+      "name": "Registration - Invalid password",
+      "description": "Invalid password for Registration",
+      "type": "invalid",
+      "values": {
+        "name": "Test Value",
+        "email": "test@example.com",
+        "password": "a",
+        "confirm_password": "SecureP@ss123"
+      },
+      "expectedOutcome": "error",
+      "errorMessage": "Invalid password"
+    },
+    {
+      "id": "5101fd33-6c6c-405b-8865-4bb9ac11cc66",
+      "name": "Registration - Invalid confirm_password",
+      "description": "Invalid confirm_password for Registration",
+      "type": "invalid",
+      "values": {
+        "name": "Test Value",
+        "email": "test@example.com",
+        "password": "SecureP@ss123",
+        "confirm_password": "a"
+      },
+      "expectedOutcome": "error",
+      "errorMessage": "Invalid confirm_password"
+    },
+    {
+      "id": "3c11e6e1-8c4f-4fae-bd8d-285db22046cb",
+      "name": "Registration - Min length - 1 (1)",
+      "description": "Boundary value Min length - 1 (1) for name",
+      "type": "boundary",
+      "values": {
+        "name": "x",
+        "email": "test@example.com",
+        "password": "SecureP@ss123",
+        "confirm_password": "SecureP@ss123"
+      },
+      "expectedOutcome": "error",
+      "errorMessage": "Value out of range for name"
+    },
+    {
+      "id": "d46d8956-5cdf-4311-a438-af55a6ece661",
+      "name": "Registration - Min length (2)",
+      "description": "Boundary value Min length (2) for name",
+      "type": "boundary",
+      "values": {
+        "name": "xx",
+        "email": "test@example.com",
+        "password": "SecureP@ss123",
+        "confirm_password": "SecureP@ss123"
+      },
+      "expectedOutcome": "success"
+    },
+    {
+      "id": "781e6372-c2bf-438f-b43a-37ba582a6f4f",
+      "name": "Registration - Max length (50)",
+      "description": "Boundary value Max length (50) for name",
+      "type": "boundary",
+      "values": {
+        "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "email": "test@example.com",
+        "password": "SecureP@ss123",
+        "confirm_password": "SecureP@ss123"
+      },
+      "expectedOutcome": "success"
+    },
+    {
+      "id": "aa45c718-aca8-4811-bb5e-a8817313ddac",
+      "name": "Registration - Max length + 1 (51)",
+      "description": "Boundary value Max length + 1 (51) for name",
+      "type": "boundary",
+      "values": {
+        "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "email": "test@example.com",
+        "password": "SecureP@ss123",
+        "confirm_password": "SecureP@ss123"
+      },
+      "expectedOutcome": "error",
+      "errorMessage": "Value out of range for name"
+    },
+    {
+      "id": "09529396-1034-49c0-8e01-8d768e4d1812",
+      "name": "Registration - Min length - 1 (5)",
+      "description": "Boundary value Min length - 1 (5) for password",
+      "type": "boundary",
+      "values": {
+        "name": "Test Value",
+        "email": "test@example.com",
+        "password": "xxxxx",
+        "confirm_password": "SecureP@ss123"
+      },
+      "expectedOutcome": "error",
+      "errorMessage": "Value out of range for password"
+    },
+    {
+      "id": "746db5dc-a993-4a5f-8aee-7c0381561028",
+      "name": "Registration - Min length (6)",
+      "description": "Boundary value Min length (6) for password",
+      "type": "boundary",
+      "values": {
+        "name": "Test Value",
+        "email": "test@example.com",
+        "password": "xxxxxx",
+        "confirm_password": "SecureP@ss123"
+      },
+      "expectedOutcome": "success"
+    },
+    {
+      "id": "650392b3-de23-4a32-96bf-c4505904e40d",
+      "name": "Place Order - Valid Data",
+      "description": "Valid test data for Place Order",
+      "type": "valid",
+      "values": {
+        "quantity": 1,
+        "shipping_address": "test"
+      },
+      "expectedOutcome": "success"
+    },
+    {
+      "id": "de366bb8-a361-49b8-89a4-7fb89e9c70c8",
+      "name": "Place Order - Invalid quantity",
+      "description": "Invalid quantity for Place Order",
+      "type": "invalid",
+      "values": {
+        "quantity": "not-a-number",
+        "shipping_address": "test"
+      },
+      "expectedOutcome": "error",
+      "errorMessage": "Invalid quantity"
+    },
+    {
+      "id": "af3d07e4-62f5-46dc-bb10-4a24140bdd07",
+      "name": "Place Order - Invalid shipping_address",
+      "description": "Invalid shipping_address for Place Order",
+      "type": "invalid",
+      "values": {
+        "quantity": 1,
+        "shipping_address": ""
+      },
+      "expectedOutcome": "error",
+      "errorMessage": "Invalid shipping_address"
+    },
+    {
+      "id": "ad65d6a5-2880-4171-a908-934624cfa0f3",
+      "name": "Place Order - Min value - 1 (0)",
+      "description": "Boundary value Min value - 1 (0) for quantity",
+      "type": "boundary",
+      "values": {
+        "quantity": 0,
+        "shipping_address": "test"
+      },
+      "expectedOutcome": "error",
+      "errorMessage": "Value out of range for quantity"
+    },
+    {
+      "id": "b4c4fa51-87a1-4b77-9304-827e6b8d6ab5",
+      "name": "Place Order - Min value (1)",
+      "description": "Boundary value Min value (1) for quantity",
+      "type": "boundary",
+      "values": {
+        "quantity": 1,
+        "shipping_address": "test"
+      },
+      "expectedOutcome": "success"
+    },
+    {
+      "id": "cd145be2-0311-4ffa-823c-0dffa588b5ff",
+      "name": "Place Order - Min length - 1 (9)",
+      "description": "Boundary value Min length - 1 (9) for shipping_address",
+      "type": "boundary",
+      "values": {
+        "quantity": 1,
+        "shipping_address": "xxxxxxxxx"
+      },
+      "expectedOutcome": "error",
+      "errorMessage": "Value out of range for shipping_address"
+    },
+    {
+      "id": "06a88468-2acd-4cf6-b295-e574c3168abe",
+      "name": "Place Order - Min length (10)",
+      "description": "Boundary value Min length (10) for shipping_address",
+      "type": "boundary",
+      "values": {
+        "quantity": 1,
+        "shipping_address": "xxxxxxxxxx"
+      },
+      "expectedOutcome": "success"
+    },
+    {
+      "id": "be57203d-8d7c-4617-ba99-e3e070b82d7c",
+      "name": "Place Order - Max length (200)",
+      "description": "Boundary value Max length (200) for shipping_address",
+      "type": "boundary",
+      "values": {
+        "quantity": 1,
+        "shipping_address": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      },
+      "expectedOutcome": "success"
+    },
+    {
+      "id": "d4530720-d91e-45ed-8cd3-578d80a4314f",
+      "name": "Place Order - Max length + 1 (201)",
+      "description": "Boundary value Max length + 1 (201) for shipping_address",
+      "type": "boundary",
+      "values": {
+        "quantity": 1,
+        "shipping_address": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      },
+      "expectedOutcome": "error",
+      "errorMessage": "Value out of range for shipping_address"
+    }
+  ],
+  "coverage": {
+    "features": 3,
+    "userStories": 4,
+    "businessRules": 3,
+    "userRoles": 2,
+    "positiveTests": 19,
+    "negativeTests": 30,
+    "totalTests": 49
+  },
+  "metadata": {
+    "generatedAt": "2025-12-01T04:02:59.281Z",
+    "generationTime": 3,
+    "version": "1.0.0"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "projectName": "TestApp E-Commerce Demo",
+  "strategyName": "TestApp E-Commerce Demo Test Strategy",
+  "summary": {
+    "totalScenarios": 49,
+    "totalTestCases": 49,
+    "byType": {
+      "positive": 11,
+      "negative": 30,
+      "boundary": 5,
+      "edge-case": 3,
+      "security": 0,
+      "accessibility": 0
+    },
+    "byPriority": {
+      "critical": 23,
+      "high": 15,
+      "medium": 11,
+      "low": 0
+    },
+    "byCategory": {
+      "smoke": 0,
+      "regression": 3,
+      "functional": 46,
+      "ui": 0,
+      "integration": 0,
+      "e2e": 0,
+      "accessibility": 0,
+      "security": 0
+    },
+    "coveragePercentage": 100
+  },
+  "recommendations": [],
+  "gaps": [],
+  "generatedAt": "2025-12-01T04:02:59.283Z"
+}

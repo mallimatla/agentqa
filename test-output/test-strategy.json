@@ -1,0 +1,168 @@
+{
+  "id": "975daa4a-e078-4d0b-bb03-e39898b61476",
+  "projectId": "testapp-001",
+  "name": "TestApp E-Commerce Demo Test Strategy",
+  "description": "Comprehensive testing strategy for TestApp E-Commerce Demo, covering 3 features across 2 user roles. This strategy includes positive negative boundary testing approaches.",
+  "objectives": [
+    "Validate all critical business flows function correctly",
+    "Ensure all user roles have appropriate access and restrictions",
+    "Verify data integrity across all features",
+    "Validate proper error handling for invalid inputs",
+    "Ensure graceful degradation under failure conditions",
+    "Verify authentication and authorization mechanisms",
+    "Test for common security vulnerabilities"
+  ],
+  "approach": "Risk-based testing prioritizing critical business flows. Deep test coverage with pairwise testing",
+  "scope": {
+    "includePositive": true,
+    "includeNegative": true,
+    "includeBoundary": true,
+    "includeEdgeCases": true,
+    "includeAccessibility": false,
+    "includeSecurity": true,
+    "includePerformance": false,
+    "includeCrossBrowser": false,
+    "includeMobile": false,
+    "browsers": [
+      "chromium"
+    ],
+    "viewports": [
+      {
+        "name": "Desktop",
+        "width": 1920,
+        "height": 1080
+      }
+    ],
+    "testDepth": "deep"
+  },
+  "riskAreas": [
+    {
+      "id": "00f5683a-3001-4710-85df-8d9ea80bd487",
+      "name": "High-Frequency User Flows",
+      "description": "1 critical flows with high user frequency",
+      "likelihood": "high",
+      "impact": "critical",
+      "mitigationStrategy": "Implement comprehensive positive and negative tests with automated regression",
+      "relatedFeatures": [
+        "Login and Place Order"
+      ]
+    },
+    {
+      "id": "c7d9427e-310f-4391-8a8c-266b852c73b0",
+      "name": "Authentication & Security",
+      "description": "User authentication and session management",
+      "likelihood": "medium",
+      "impact": "critical",
+      "mitigationStrategy": "Extensive security testing including injection, session handling, and authorization bypass attempts",
+      "relatedFeatures": [
+        "Login"
+      ]
+    },
+    {
+      "id": "3e358389-d8fc-423f-947a-92e17036596c",
+      "name": "Data Entry Forms",
+      "description": "1 complex forms with multiple inputs",
+      "likelihood": "high",
+      "impact": "high",
+      "mitigationStrategy": "Boundary testing, validation testing, and negative input testing",
+      "relatedFeatures": [
+        "Registration"
+      ]
+    }
+  ],
+  "testPhases": [
+    {
+      "name": "Smoke Testing",
+      "description": "Quick validation of critical paths",
+      "order": 1,
+      "testTypes": [
+        "smoke"
+      ],
+      "entryConditions": [
+        "Build successfully deployed",
+        "Environment accessible"
+      ],
+      "exitCriteria": [
+        "All smoke tests pass",
+        "No critical defects"
+      ]
+    },
+    {
+      "name": "Functional Testing",
+      "description": "Comprehensive feature validation",
+      "order": 2,
+      "testTypes": [
+        "functional",
+        "ui"
+      ],
+      "entryConditions": [
+        "Smoke tests passed"
+      ],
+      "exitCriteria": [
+        "All functional tests pass",
+        "No high severity defects"
+      ]
+    },
+    {
+      "name": "Integration Testing",
+      "description": "End-to-end workflow validation",
+      "order": 3,
+      "testTypes": [
+        "integration",
+        "e2e"
+      ],
+      "entryConditions": [
+        "Functional tests passed"
+      ],
+      "exitCriteria": [
+        "All integration tests pass",
+        "Data flows correctly"
+      ]
+    },
+    {
+      "name": "Regression Testing",
+      "description": "Full regression suite execution",
+      "order": 4,
+      "testTypes": [
+        "regression"
+      ],
+      "entryConditions": [
+        "Integration tests passed"
+      ],
+      "exitCriteria": [
+        "No regression defects",
+        "Pass rate > 95%"
+      ]
+    }
+  ],
+  "estimatedTestCount": {
+    "smoke": 12,
+    "regression": 35,
+    "functional": 41,
+    "integration": 18,
+    "e2e": 12,
+    "total": 116
+  },
+  "prioritization": {
+    "byBusinessImpact": true,
+    "byUserFrequency": true,
+    "byRiskLevel": true,
+    "byDependencies": true,
+    "customRules": [
+      "Critical priority for Login and Place Order tests"
+    ]
+  },
+  "resources": [
+    {
+      "type": "browser",
+      "name": "chromium",
+      "allocation": "parallel execution"
+    },
+    {
+      "type": "environment",
+      "name": "Local",
+      "allocation": "full testing"
+    }
+  ],
+  "createdAt": "2025-12-01T04:02:59.278Z"
+}

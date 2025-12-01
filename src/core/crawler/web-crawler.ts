@@ -108,6 +108,7 @@ export class WebCrawler {
     this.browser = await chromium.launch({
       headless: options.headless ?? true,
       slowMo: options.slowMo ?? 0,
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
     });
 
     this.context = await this.browser.newContext({
@@ -132,23 +133,30 @@ export class WebCrawler {
 
     try {
       if (authConfig.type === 'form') {
-        await page.goto(authConfig.loginUrl || `${this.baseUrl}/login`);
-        await page.waitForLoadState('networkidle');
+        await page.goto(authConfig.loginUrl || `${this.baseUrl}/login`, { waitUntil: 'domcontentloaded', timeout: 30000 });
+        await page.waitForLoadState('load', { timeout: 10000 });
 
         if (authConfig.usernameSelector && credentials.username) {
+          await page.waitForSelector(authConfig.usernameSelector, { state: 'visible', timeout: 5000 });
           await page.fill(authConfig.usernameSelector, credentials.username);
         }
         if (authConfig.passwordSelector && credentials.password) {
+          await page.waitForSelector(authConfig.passwordSelector, { state: 'visible', timeout: 5000 });
           await page.fill(authConfig.passwordSelector, credentials.password);
         }
         if (authConfig.submitSelector) {
+          await page.waitForSelector(authConfig.submitSelector, { state: 'visible', timeout: 5000 });
           await page.click(authConfig.submitSelector);
-          await page.waitForLoadState('networkidle');
+          await page.waitForLoadState('load', { timeout: 10000 });
         }
 
-        // Wait for success indicator
+        // Wait for success indicator (URL contains or element exists)
         if (authConfig.successIndicator) {
-          await page.waitForSelector(authConfig.successIndicator, { timeout: 10000 });
+          if (authConfig.successIndicator.startsWith('/')) {
+            await page.waitForURL(`**${authConfig.successIndicator}**`, { timeout: 10000 });
+          } else {
+            await page.waitForSelector(authConfig.successIndicator, { timeout: 10000 });
+          }
         }
 
         console_log.success('Authentication successful');
