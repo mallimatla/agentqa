@@ -633,3 +633,409 @@ export interface ReportOptions extends CLIOptions {
   serve?: boolean;
   port?: number;
 }
+
+// ============================================================================
+// INTELLIGENT TEST GENERATION TYPES (World-Class AgentQA)
+// ============================================================================
+
+/**
+ * User role for multi-persona testing
+ */
+export interface UserRole {
+  id: string;
+  name: string;
+  description: string;
+  permissions: string[];
+  accessLevel: 'admin' | 'manager' | 'user' | 'guest' | 'readonly' | 'custom';
+  credentials?: Credentials;
+  restrictions?: string[];
+  expectedBehaviors?: string[];
+}
+
+/**
+ * User story for test generation
+ */
+export interface UserStory {
+  id: string;
+  title: string;
+  description: string;
+  asA: string;          // As a [role]
+  iWant: string;        // I want [feature]
+  soThat: string;       // So that [benefit]
+  acceptanceCriteria: string[];
+  priority: Priority;
+  tags: string[];
+  relatedFeatures?: string[];
+  dependencies?: string[];
+  estimatedComplexity: 'simple' | 'medium' | 'complex' | 'very-complex';
+}
+
+/**
+ * Feature definition for the application
+ */
+export interface Feature {
+  id: string;
+  name: string;
+  description: string;
+  module: string;
+  userStories: UserStory[];
+  businessRules: BusinessRule[];
+  inputs: FeatureInput[];
+  outputs: FeatureOutput[];
+  validations: Validation[];
+  integrations?: Integration[];
+  status: 'active' | 'deprecated' | 'planned';
+}
+
+/**
+ * Business rule for validation
+ */
+export interface BusinessRule {
+  id: string;
+  name: string;
+  description: string;
+  condition: string;
+  action: string;
+  priority: Priority;
+  category: 'validation' | 'calculation' | 'authorization' | 'workflow' | 'display';
+}
+
+/**
+ * Feature input specification
+ */
+export interface FeatureInput {
+  name: string;
+  type: 'text' | 'number' | 'email' | 'password' | 'date' | 'file' | 'select' | 'checkbox' | 'radio' | 'textarea';
+  required: boolean;
+  minLength?: number;
+  maxLength?: number;
+  minValue?: number;
+  maxValue?: number;
+  pattern?: string;
+  validValues?: string[];
+  defaultValue?: string;
+  description?: string;
+}
+
+/**
+ * Feature output specification
+ */
+export interface FeatureOutput {
+  name: string;
+  type: string;
+  description: string;
+  successIndicator?: string;
+  errorIndicator?: string;
+}
+
+/**
+ * Validation rule
+ */
+export interface Validation {
+  field: string;
+  type: 'required' | 'format' | 'range' | 'length' | 'custom' | 'unique' | 'depends';
+  rule: string;
+  errorMessage: string;
+}
+
+/**
+ * Integration point
+ */
+export interface Integration {
+  name: string;
+  type: 'api' | 'database' | 'thirdParty' | 'internal';
+  endpoint?: string;
+  description: string;
+}
+
+/**
+ * Performance benchmark
+ */
+export interface PerformanceBenchmark {
+  metric: string;
+  target: number;
+  unit: 'ms' | 's' | 'requests/s' | 'concurrent' | 'MB' | '%';
+  tolerance: number;
+  critical?: boolean;
+}
+
+/**
+ * Project configuration for intelligent test generation
+ */
+export interface ProjectConfig {
+  id: string;
+  name: string;
+  description: string;
+  baseUrl: string;
+  applicationInfo: {
+    type: 'web' | 'mobile-web' | 'pwa' | 'spa';
+    framework?: 'angular' | 'react' | 'nextjs' | 'vue' | 'other';
+    industry?: string;
+    version?: string;
+  };
+  userRoles: UserRole[];
+  userStories: UserStory[];
+  features: Feature[];
+  criticalFlows: CriticalFlow[];
+  performanceBenchmarks: PerformanceBenchmark[];
+  environments: Environment[];
+  testingScope: TestingScope;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+/**
+ * Critical user flow
+ */
+export interface CriticalFlow {
+  id: string;
+  name: string;
+  description: string;
+  priority: Priority;
+  steps: string[];
+  expectedOutcome: string;
+  userRole: string;
+  frequency: 'very-high' | 'high' | 'medium' | 'low';
+  businessImpact: 'critical' | 'high' | 'medium' | 'low';
+}
+
+/**
+ * Test environment configuration
+ */
+export interface Environment {
+  name: string;
+  url: string;
+  type: 'development' | 'staging' | 'production' | 'qa';
+  credentials?: Credentials;
+}
+
+/**
+ * Testing scope definition
+ */
+export interface TestingScope {
+  includePositive: boolean;
+  includeNegative: boolean;
+  includeBoundary: boolean;
+  includeEdgeCases: boolean;
+  includeAccessibility: boolean;
+  includeSecurity: boolean;
+  includePerformance: boolean;
+  includeCrossBrowser: boolean;
+  includeMobile: boolean;
+  browsers: ('chromium' | 'firefox' | 'webkit')[];
+  viewports: { name: string; width: number; height: number }[];
+  testDepth: 'shallow' | 'moderate' | 'deep' | 'exhaustive';
+}
+
+/**
+ * Test strategy generated from project config
+ */
+export interface TestStrategy {
+  id: string;
+  projectId: string;
+  name: string;
+  description: string;
+  objectives: string[];
+  approach: string;
+  scope: TestingScope;
+  riskAreas: RiskArea[];
+  testPhases: TestPhase[];
+  estimatedTestCount: {
+    smoke: number;
+    regression: number;
+    functional: number;
+    integration: number;
+    e2e: number;
+    total: number;
+  };
+  prioritization: TestPrioritization;
+  resources: TestResource[];
+  timeline?: string;
+  createdAt: Date;
+}
+
+/**
+ * Risk area identified in testing
+ */
+export interface RiskArea {
+  id: string;
+  name: string;
+  description: string;
+  likelihood: 'high' | 'medium' | 'low';
+  impact: 'critical' | 'high' | 'medium' | 'low';
+  mitigationStrategy: string;
+  relatedFeatures: string[];
+}
+
+/**
+ * Test phase in strategy
+ */
+export interface TestPhase {
+  name: string;
+  description: string;
+  order: number;
+  testTypes: TestCategory[];
+  entryConditions: string[];
+  exitCriteria: string[];
+}
+
+/**
+ * Test prioritization rules
+ */
+export interface TestPrioritization {
+  byBusinessImpact: boolean;
+  byUserFrequency: boolean;
+  byRiskLevel: boolean;
+  byDependencies: boolean;
+  customRules?: string[];
+}
+
+/**
+ * Test resource allocation
+ */
+export interface TestResource {
+  type: 'browser' | 'environment' | 'data' | 'tool';
+  name: string;
+  allocation: string;
+}
+
+/**
+ * Test scenario (higher level than test case)
+ */
+export interface TestScenario {
+  id: string;
+  name: string;
+  description: string;
+  feature: string;
+  userStory?: string;
+  userRole: string;
+  type: 'positive' | 'negative' | 'boundary' | 'edge-case' | 'security' | 'accessibility';
+  preconditions: string[];
+  flow: ScenarioStep[];
+  expectedBehavior: string;
+  alternativeFlows?: AlternativeFlow[];
+  testCases?: TestCase[];
+  priority: Priority;
+  tags: string[];
+  coverage: {
+    businessRules: string[];
+    validations: string[];
+    integrations: string[];
+  };
+}
+
+/**
+ * Step within a scenario
+ */
+export interface ScenarioStep {
+  order: number;
+  description: string;
+  action: string;
+  input?: string;
+  expectedResult: string;
+}
+
+/**
+ * Alternative flow in scenario
+ */
+export interface AlternativeFlow {
+  name: string;
+  trigger: string;
+  steps: ScenarioStep[];
+  expectedOutcome: string;
+}
+
+/**
+ * Negative test case specification
+ */
+export interface NegativeTestSpec {
+  type: 'invalid-input' | 'boundary-violation' | 'missing-required' | 'unauthorized' |
+        'format-error' | 'constraint-violation' | 'timeout' | 'network-error' |
+        'concurrent-access' | 'injection' | 'overflow';
+  field?: string;
+  invalidValue: string;
+  expectedError: string;
+  severity: 'critical' | 'high' | 'medium' | 'low';
+}
+
+/**
+ * Test data specification
+ */
+export interface TestData {
+  id: string;
+  name: string;
+  description: string;
+  type: 'valid' | 'invalid' | 'boundary' | 'edge-case';
+  values: Record<string, string | number | boolean>;
+  expectedOutcome: 'success' | 'error';
+  errorMessage?: string;
+}
+
+/**
+ * Generated test suite with full context
+ */
+export interface IntelligentTestSuite {
+  id: string;
+  projectId: string;
+  strategyId: string;
+  name: string;
+  description: string;
+  baseUrl: string;
+  scenarios: TestScenario[];
+  testCases: TestCase[];
+  testData: TestData[];
+  coverage: {
+    features: number;
+    userStories: number;
+    businessRules: number;
+    userRoles: number;
+    positiveTests: number;
+    negativeTests: number;
+    totalTests: number;
+  };
+  metadata: {
+    generatedAt: Date;
+    generationTime: number;
+    version: string;
+  };
+}
+
+/**
+ * Test generation report
+ */
+export interface TestGenerationReport {
+  projectName: string;
+  strategyName: string;
+  summary: {
+    totalScenarios: number;
+    totalTestCases: number;
+    byType: Record<string, number>;
+    byPriority: Record<Priority, number>;
+    byCategory: Record<TestCategory, number>;
+    coveragePercentage: number;
+  };
+  recommendations: Recommendation[];
+  gaps: CoverageGap[];
+  generatedAt: Date;
+}
+
+/**
+ * Recommendation for test improvement
+ */
+export interface Recommendation {
+  type: 'coverage' | 'priority' | 'risk' | 'efficiency';
+  title: string;
+  description: string;
+  action: string;
+  impact: 'high' | 'medium' | 'low';
+}
+
+/**
+ * Coverage gap identified
+ */
+export interface CoverageGap {
+  area: string;
+  type: 'feature' | 'scenario' | 'validation' | 'integration' | 'role';
+  description: string;
+  suggestedTests: string[];
+}

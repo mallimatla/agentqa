@@ -18,6 +18,9 @@ export { ScriptGenerator } from './core/generator/script-generator';
 export { TestExecutor } from './core/executor/test-executor';
 export { DashboardReporter } from './core/reporter/dashboard-reporter';
 
+// Intelligence modules
+export { StrategyEngine } from './core/intelligence/strategy-engine';
+
 // Types
 export * from './types';
 
@@ -155,12 +158,18 @@ export async function quickStart(options: {
 }
 
 // Default export
+import { WebCrawler as WC } from './core/crawler/web-crawler';
+import { CSVParser as CP } from './core/parser/csv-parser';
+import { ScriptGenerator as SG } from './core/generator/script-generator';
+import { TestExecutor as TE } from './core/executor/test-executor';
+import { DashboardReporter as DR } from './core/reporter/dashboard-reporter';
+
 export default {
-  WebCrawler,
-  CSVParser,
-  ScriptGenerator,
-  TestExecutor,
-  DashboardReporter,
+  WebCrawler: WC,
+  CSVParser: CP,
+  ScriptGenerator: SG,
+  TestExecutor: TE,
+  DashboardReporter: DR,
   quickStart,
   VERSION,
 };

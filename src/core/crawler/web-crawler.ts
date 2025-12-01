@@ -405,7 +405,7 @@ export class WebCrawler {
       const text = await locator.innerText().catch(() => '');
       const attributes = await locator.evaluate((el) => {
         const attrs: Record<string, string> = {};
-        for (const attr of el.attributes) {
+        for (const attr of Array.from(el.attributes)) {
           attrs[attr.name] = attr.value;
         }
         return attrs;
@@ -656,7 +656,7 @@ export class WebCrawler {
 
         const linkInfo = await locator.evaluate((el) => ({
           href: el.getAttribute('href') || '',
-          text: el.innerText.trim().substring(0, 100),
+          text: (el as HTMLElement).innerText?.trim()?.substring(0, 100) || '',
           target: el.getAttribute('target'),
         }));
 

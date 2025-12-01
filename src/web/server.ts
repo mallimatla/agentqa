@@ -13,7 +13,9 @@ import { CSVParser } from '../core/parser/csv-parser';
 import { ScriptGenerator } from '../core/generator/script-generator';
 import { TestExecutor } from '../core/executor/test-executor';
 import { DashboardReporter } from '../core/reporter/dashboard-reporter';
+import { StrategyEngine } from '../core/intelligence/strategy-engine';
 import { console_log } from '../utils/logger';
+import { ProjectConfig, UserRole, UserStory, Feature, CriticalFlow, TestingScope } from '../types';
 
 export class WebUIServer {
   private app: Express;
@@ -433,6 +435,253 @@ TC001,Sample Login Test,Verify user can login,functional,high,"smoke,auth",4,cli
       res.setHeader('Content-Type', 'text/csv');
       res.setHeader('Content-Disposition', 'attachment; filename="agentqa-test-template.csv"');
       res.send(template);
+    });
+
+    // API: Generate Intelligent Test Suite
+    this.app.post('/api/intelligent-generate', async (req: Request, res: Response) => {
+      const { project } = req.body;
+
+      if (!project || !project.name || !project.baseUrl) {
+        return res.status(400).json({ error: 'Project configuration is required' });
+      }
+
+      try {
+        this.broadcast('status', { message: 'Starting intelligent test generation...', type: 'info' });
+
+        // Create project config with defaults
+        const projectConfig: ProjectConfig = {
+          id: `proj-${Date.now()}`,
+          name: project.name,
+          description: project.description || '',
+          baseUrl: project.baseUrl,
+          applicationInfo: {
+            type: project.applicationType || 'web',
+            framework: project.framework || 'other',
+            industry: project.industry || '',
+          },
+          userRoles: (project.userRoles || []).map((role: any, index: number) => ({
+            id: `role-${index + 1}`,
+            name: role.name,
+            description: role.description || '',
+            permissions: role.permissions || [],
+            accessLevel: role.accessLevel || 'user',
+            credentials: role.credentials,
+            restrictions: role.restrictions || [],
+          })),
+          userStories: (project.userStories || []).map((story: any, index: number) => ({
+            id: `story-${index + 1}`,
+            title: story.title,
+            description: story.description || '',
+            asA: story.asA || 'user',
+            iWant: story.iWant || '',
+            soThat: story.soThat || '',
+            acceptanceCriteria: story.acceptanceCriteria || [],
+            priority: story.priority || 'medium',
+            tags: story.tags || [],
+            estimatedComplexity: story.complexity || 'medium',
+          })),
+          features: (project.features || []).map((feature: any, index: number) => ({
+            id: `feature-${index + 1}`,
+            name: feature.name,
+            description: feature.description || '',
+            module: feature.module || 'General',
+            userStories: [],
+            businessRules: (feature.businessRules || []).map((rule: any, rIndex: number) => ({
+              id: `rule-${index}-${rIndex}`,
+              name: rule.name || `Rule ${rIndex + 1}`,
+              description: rule.description || '',
+              condition: rule.condition || '',
+              action: rule.action || '',
+              priority: rule.priority || 'medium',
+              category: rule.category || 'validation',
+            })),
+            inputs: (feature.inputs || []).map((input: any) => ({
+              name: input.name,
+              type: input.type || 'text',
+              required: input.required || false,
+              minLength: input.minLength,
+              maxLength: input.maxLength,
+              minValue: input.minValue,
+              maxValue: input.maxValue,
+              pattern: input.pattern,
+              validValues: input.validValues,
+              description: input.description,
+            })),
+            outputs: (feature.outputs || []).map((output: any) => ({
+              name: output.name,
+              type: output.type || 'display',
+              description: output.description || '',
+              successIndicator: output.successIndicator,
+            })),
+            validations: (feature.validations || []).map((v: any) => ({
+              field: v.field,
+              type: v.type || 'required',
+              rule: v.rule || '',
+              errorMessage: v.errorMessage || '',
+            })),
+            integrations: feature.integrations || [],
+            status: 'active' as const,
+          })),
+          criticalFlows: (project.criticalFlows || []).map((flow: any, index: number) => ({
+            id: `flow-${index + 1}`,
+            name: flow.name,
+            description: flow.description || '',
+            priority: flow.priority || 'high',
+            steps: flow.steps || [],
+            expectedOutcome: flow.expectedOutcome || '',
+            userRole: flow.userRole || 'user',
+            frequency: flow.frequency || 'high',
+            businessImpact: flow.businessImpact || 'high',
+          })),
+          performanceBenchmarks: project.performanceBenchmarks || [],
+          environments: project.environments || [{ name: 'Production', url: project.baseUrl, type: 'production' as const }],
+          testingScope: {
+            includePositive: project.testingScope?.includePositive !== false,
+            includeNegative: project.testingScope?.includeNegative !== false,
+            includeBoundary: project.testingScope?.includeBoundary !== false,
+            includeEdgeCases: project.testingScope?.includeEdgeCases !== false,
+            includeAccessibility: project.testingScope?.includeAccessibility || false,
+            includeSecurity: project.testingScope?.includeSecurity !== false,
+            includePerformance: project.testingScope?.includePerformance || false,
+            includeCrossBrowser: project.testingScope?.includeCrossBrowser || false,
+            includeMobile: project.testingScope?.includeMobile || false,
+            browsers: project.testingScope?.browsers || ['chromium'],
+            viewports: project.testingScope?.viewports || [{ name: 'Desktop', width: 1920, height: 1080 }],
+            testDepth: project.testingScope?.testDepth || 'deep',
+          },
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        };
+
+        this.broadcast('status', { message: 'Analyzing project requirements...', type: 'info' });
+
+        // Generate intelligent test suite
+        const engine = new StrategyEngine();
+        const strategy = engine.generateStrategy(projectConfig);
+
+        this.broadcast('status', { message: `Generated test strategy with ${strategy.testPhases.length} phases`, type: 'info' });
+
+        const suite = engine.generateIntelligentSuite(projectConfig);
+
+        this.broadcast('status', { message: `Generated ${suite.scenarios.length} scenarios and ${suite.testCases.length} test cases`, type: 'info' });
+
+        const report = engine.generateReport(suite, projectConfig);
+
+        // Save project and results
+        const dataDir = path.join(process.cwd(), 'generated', 'intelligent');
+        if (!fs.existsSync(dataDir)) {
+          fs.mkdirSync(dataDir, { recursive: true });
+        }
+
+        fs.writeFileSync(path.join(dataDir, 'project-config.json'), JSON.stringify(projectConfig, null, 2));
+        fs.writeFileSync(path.join(dataDir, 'test-strategy.json'), JSON.stringify(strategy, null, 2));
+        fs.writeFileSync(path.join(dataDir, 'test-suite.json'), JSON.stringify(suite, null, 2));
+        fs.writeFileSync(path.join(dataDir, 'generation-report.json'), JSON.stringify(report, null, 2));
+
+        // Export test cases to CSV
+        const csvParser = new CSVParser();
+        const csvSuite = {
+          id: suite.id,
+          name: suite.name,
+          description: suite.description,
+          baseUrl: suite.baseUrl,
+          testCases: suite.testCases,
+        };
+        await csvParser.exportToCSV(csvSuite, path.join(dataDir, 'generated-test-cases.csv'));
+
+        this.broadcast('status', { message: 'Test suite generated successfully!', type: 'success' });
+        this.broadcast('intelligent-complete', { strategy, suite, report });
+
+        res.json({
+          success: true,
+          strategy,
+          suite: {
+            ...suite,
+            testCases: suite.testCases.slice(0, 50), // Limit for response size
+          },
+          report,
+        });
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        this.broadcast('status', { message: `Error: ${errorMessage}`, type: 'error' });
+        res.status(500).json({ error: errorMessage });
+      }
+    });
+
+    // API: Execute Intelligent Test Suite
+    this.app.post('/api/intelligent-execute', async (req: Request, res: Response) => {
+      const { baseUrl, auth } = req.body;
+
+      const suitePath = path.join(process.cwd(), 'generated', 'intelligent', 'test-suite.json');
+      if (!fs.existsSync(suitePath)) {
+        return res.status(400).json({ error: 'No intelligent test suite found. Generate tests first.' });
+      }
+
+      try {
+        const suiteData = JSON.parse(fs.readFileSync(suitePath, 'utf-8'));
+        const url = baseUrl || suiteData.baseUrl;
+
+        this.broadcast('status', { message: `Executing ${suiteData.testCases.length} intelligent test cases...`, type: 'info' });
+
+        const suite = {
+          id: suiteData.id,
+          name: suiteData.name,
+          description: suiteData.description,
+          baseUrl: url,
+          testCases: suiteData.testCases,
+          credentials: auth?.credentials,
+          config: auth ? { baseUrl: url, auth } : undefined,
+        };
+
+        // Generate Playwright scripts
+        const generator = new ScriptGenerator({ template: 'typescript' });
+        await generator.generateFromSuite(suite as any);
+
+        const executor = new TestExecutor({
+          url,
+          headless: true,
+          video: true,
+        });
+
+        if (auth?.credentials) {
+          executor.setCredentials(auth.credentials);
+        }
+        if (auth?.type) {
+          executor.setAuthConfig(auth);
+        }
+
+        await executor.initialize();
+
+        let completed = 0;
+        const total = suite.testCases.length;
+
+        const result = await executor.executeSuite(suite as any);
+        await executor.close();
+
+        // Generate report
+        const reporter = new DashboardReporter({ openAfterGeneration: false });
+        await reporter.generateReport(result, undefined, executor.getIssues());
+
+        this.broadcast('status', { message: `Completed! Passed: ${result.passed}, Failed: ${result.failed}`, type: 'success' });
+        this.broadcast('execution-complete', result);
+
+        res.json({ success: true, result });
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        this.broadcast('status', { message: `Error: ${errorMessage}`, type: 'error' });
+        res.status(500).json({ error: errorMessage });
+      }
+    });
+
+    // API: Get Intelligent Test Report
+    this.app.get('/api/intelligent-report', (req: Request, res: Response) => {
+      const reportPath = path.join(process.cwd(), 'generated', 'intelligent', 'generation-report.json');
+      if (fs.existsSync(reportPath)) {
+        const report = JSON.parse(fs.readFileSync(reportPath, 'utf-8'));
+        res.json(report);
+      } else {
+        res.json({ error: 'No report available' });
+      }
     });
   }
 
@@ -905,6 +1154,259 @@ TC001,Sample Login Test,Verify user can login,functional,high,"smoke,auth",4,cli
     .notification.success { background: var(--success); }
     .notification.error { background: var(--danger); }
     .notification.info { background: var(--primary); }
+
+    /* Wizard Styles */
+    .wizard-steps {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .wizard-steps::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background: var(--gray-200);
+      z-index: 0;
+    }
+
+    .wizard-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-number {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gray-200);
+      color: var(--gray-500);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      transition: all 0.3s;
+    }
+
+    .wizard-step.active .step-number,
+    .wizard-step.completed .step-number {
+      background: var(--primary);
+      color: white;
+    }
+
+    .wizard-step.completed .step-number {
+      background: var(--success);
+    }
+
+    .step-label {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      text-align: center;
+      max-width: 80px;
+    }
+
+    .wizard-step.active .step-label {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .wizard-content {
+      display: none;
+      min-height: 400px;
+    }
+
+    .wizard-content.active {
+      display: block;
+    }
+
+    .wizard-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--gray-200);
+    }
+
+    /* Dynamic Items (Roles, Stories, Features, Flows) */
+    .dynamic-item {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .item-title {
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .btn-remove {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: none;
+      background: var(--danger);
+      color: white;
+      font-size: 1.25rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+
+    .btn-remove:hover {
+      transform: scale(1.1);
+    }
+
+    /* Checkbox Grid for Scope */
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .checkbox-card {
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      background: white;
+      border: 2px solid var(--gray-200);
+      border-radius: 0.75rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .checkbox-card:hover {
+      border-color: var(--primary);
+    }
+
+    .checkbox-card input {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .checkbox-card input:checked + .checkbox-label {
+      color: var(--primary);
+    }
+
+    .checkbox-card:has(input:checked) {
+      border-color: var(--primary);
+      background: rgba(99, 102, 241, 0.05);
+    }
+
+    .checkbox-label {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .checkbox-desc {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+    }
+
+    .checkbox-card.small {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+    }
+
+    .checkbox-card.small .checkbox-label {
+      margin: 0;
+    }
+
+    .scope-section h4 {
+      margin-bottom: 0.75rem;
+      color: var(--gray-700);
+    }
+
+    /* Results Summary */
+    .results-summary {
+      background: linear-gradient(135deg, var(--gray-50) 0%, white 100%);
+      border: 1px solid var(--gray-200);
+      border-radius: 1rem;
+      padding: 1.5rem;
+    }
+
+    .results-summary h3 {
+      color: var(--success);
+      margin-bottom: 0.5rem;
+    }
+
+    /* Recommendation Items */
+    .recommendation-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem;
+      background: var(--gray-50);
+      border-radius: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .recommendation-item .icon {
+      font-size: 1.5rem;
+    }
+
+    .recommendation-item .content {
+      flex: 1;
+    }
+
+    .recommendation-item .title {
+      font-weight: 600;
+      color: var(--gray-800);
+    }
+
+    .recommendation-item .desc {
+      font-size: 0.875rem;
+      color: var(--gray-600);
+    }
+
+    .recommendation-item .impact {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-weight: 500;
+    }
+
+    .recommendation-item .impact.high {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+    }
+
+    .recommendation-item .impact.medium {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+    }
+
+    @media (max-width: 768px) {
+      .wizard-steps {
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      .wizard-steps::before {
+        display: none;
+      }
+      .form-row {
+        grid-template-columns: 1fr !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -916,9 +1418,13 @@ TC001,Sample Login Test,Verify user can login,functional,high,"smoke,auth",4,cli
 
     <div class="main-card">
       <div class="tabs">
-        <div class="tab active" data-tab="discover">
+        <div class="tab active" data-tab="intelligent">
+          <span class="tab-icon">🧠</span>
+          Intelligent Testing
+        </div>
+        <div class="tab" data-tab="discover">
           <span class="tab-icon">🔍</span>
-          Discover
+          Quick Discover
         </div>
         <div class="tab" data-tab="csv-upload">
           <span class="tab-icon">📄</span>
@@ -928,15 +1434,441 @@ TC001,Sample Login Test,Verify user can login,functional,high,"smoke,auth",4,cli
           <span class="tab-icon">📊</span>
           Results
         </div>
-        <div class="tab" data-tab="workflow">
-          <span class="tab-icon">🚀</span>
-          Full Workflow
+      </div>
+
+      <!-- Intelligent Testing Tab - Multi-Step Wizard -->
+      <div class="tab-content active" id="intelligent">
+        <h2 style="margin-bottom: 0.5rem;">🧠 Intelligent Test Generation</h2>
+        <p style="color: var(--gray-500); margin-bottom: 1.5rem;">
+          Tell us about your application and we'll generate comprehensive test strategy, scenarios, and test cases like 1000 expert testers.
+        </p>
+
+        <!-- Wizard Steps Indicator -->
+        <div class="wizard-steps">
+          <div class="wizard-step active" data-step="1">
+            <div class="step-number">1</div>
+            <div class="step-label">Project Info</div>
+          </div>
+          <div class="wizard-step" data-step="2">
+            <div class="step-number">2</div>
+            <div class="step-label">User Roles</div>
+          </div>
+          <div class="wizard-step" data-step="3">
+            <div class="step-number">3</div>
+            <div class="step-label">User Stories</div>
+          </div>
+          <div class="wizard-step" data-step="4">
+            <div class="step-number">4</div>
+            <div class="step-label">Features</div>
+          </div>
+          <div class="wizard-step" data-step="5">
+            <div class="step-number">5</div>
+            <div class="step-label">Critical Flows</div>
+          </div>
+          <div class="wizard-step" data-step="6">
+            <div class="step-number">6</div>
+            <div class="step-label">Test Scope</div>
+          </div>
         </div>
+
+        <!-- Step 1: Project Info -->
+        <div class="wizard-content active" id="wizard-step-1">
+          <h3 style="margin-bottom: 1rem;">📋 Project Information</h3>
+          <div class="form-group">
+            <label for="proj-name">Project/Application Name *</label>
+            <input type="text" id="proj-name" placeholder="e.g., E-Commerce Platform, HR Management System" />
+          </div>
+          <div class="form-group">
+            <label for="proj-description">Project Description</label>
+            <textarea id="proj-description" rows="3" placeholder="Describe what your application does, its main purpose, and target users..."></textarea>
+          </div>
+          <div class="form-group">
+            <label for="proj-url">Application URL *</label>
+            <input type="url" id="proj-url" placeholder="https://your-app.com" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="proj-framework">Framework/Technology</label>
+              <select id="proj-framework">
+                <option value="angular">Angular</option>
+                <option value="react">React</option>
+                <option value="nextjs">Next.js</option>
+                <option value="vue">Vue.js</option>
+                <option value="other" selected>Other/Unknown</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="proj-industry">Industry/Domain</label>
+              <input type="text" id="proj-industry" placeholder="e.g., Finance, Healthcare, E-commerce" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: User Roles -->
+        <div class="wizard-content" id="wizard-step-2">
+          <h3 style="margin-bottom: 1rem;">👥 User Roles & Personas</h3>
+          <p style="color: var(--gray-500); margin-bottom: 1rem; font-size: 0.9rem;">
+            Define all user types that will use your application. We'll test each role's access and restrictions.
+          </p>
+          <div id="user-roles-container">
+            <div class="dynamic-item" data-role-index="0">
+              <div class="item-header">
+                <span class="item-title">Role 1</span>
+                <button type="button" class="btn-remove" onclick="removeRole(this)">×</button>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Role Name *</label>
+                  <input type="text" class="role-name" placeholder="e.g., Admin, Manager, User" />
+                </div>
+                <div class="form-group">
+                  <label>Access Level</label>
+                  <select class="role-access">
+                    <option value="admin">Admin (Full Access)</option>
+                    <option value="manager">Manager</option>
+                    <option value="user" selected>Regular User</option>
+                    <option value="guest">Guest (Limited)</option>
+                    <option value="readonly">Read Only</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>What can this role do? (Permissions)</label>
+                <textarea class="role-permissions" rows="2" placeholder="e.g., View reports, Edit own profile, Manage users, Access admin panel..."></textarea>
+              </div>
+              <div class="form-group">
+                <label>What is restricted for this role?</label>
+                <textarea class="role-restrictions" rows="2" placeholder="e.g., Cannot delete records, No access to billing, Cannot change settings..."></textarea>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Test Username (optional)</label>
+                  <input type="text" class="role-username" placeholder="testuser" />
+                </div>
+                <div class="form-group">
+                  <label>Test Password (optional)</label>
+                  <input type="password" class="role-password" placeholder="password" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-secondary" onclick="addRole()" style="margin-top: 1rem;">
+            <span>+</span> Add Another Role
+          </button>
+        </div>
+
+        <!-- Step 3: User Stories -->
+        <div class="wizard-content" id="wizard-step-3">
+          <h3 style="margin-bottom: 1rem;">📖 User Stories & Requirements</h3>
+          <p style="color: var(--gray-500); margin-bottom: 1rem; font-size: 0.9rem;">
+            Add user stories that describe what users want to accomplish. Format: As a [role], I want [feature], so that [benefit].
+          </p>
+          <div id="user-stories-container">
+            <div class="dynamic-item" data-story-index="0">
+              <div class="item-header">
+                <span class="item-title">User Story 1</span>
+                <button type="button" class="btn-remove" onclick="removeStory(this)">×</button>
+              </div>
+              <div class="form-group">
+                <label>Story Title *</label>
+                <input type="text" class="story-title" placeholder="e.g., User Login, Create Order, Generate Report" />
+              </div>
+              <div class="form-row" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="form-group">
+                  <label>As a...</label>
+                  <input type="text" class="story-as-a" placeholder="user, admin, manager" />
+                </div>
+                <div class="form-group">
+                  <label>I want to...</label>
+                  <input type="text" class="story-i-want" placeholder="log into the system" />
+                </div>
+                <div class="form-group">
+                  <label>So that...</label>
+                  <input type="text" class="story-so-that" placeholder="I can access my dashboard" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Acceptance Criteria (one per line)</label>
+                <textarea class="story-criteria" rows="3" placeholder="User can enter username and password\nSystem validates credentials\nUser is redirected to dashboard on success\nError message shown on invalid credentials"></textarea>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Priority</label>
+                  <select class="story-priority">
+                    <option value="critical">Critical</option>
+                    <option value="high" selected>High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Complexity</label>
+                  <select class="story-complexity">
+                    <option value="simple">Simple</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="complex">Complex</option>
+                    <option value="very-complex">Very Complex</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-secondary" onclick="addStory()" style="margin-top: 1rem;">
+            <span>+</span> Add Another Story
+          </button>
+        </div>
+
+        <!-- Step 4: Features -->
+        <div class="wizard-content" id="wizard-step-4">
+          <h3 style="margin-bottom: 1rem;">⚙️ Features & Inputs</h3>
+          <p style="color: var(--gray-500); margin-bottom: 1rem; font-size: 0.9rem;">
+            Define the main features and their input fields. This helps us generate boundary and validation tests.
+          </p>
+          <div id="features-container">
+            <div class="dynamic-item" data-feature-index="0">
+              <div class="item-header">
+                <span class="item-title">Feature 1</span>
+                <button type="button" class="btn-remove" onclick="removeFeature(this)">×</button>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Feature Name *</label>
+                  <input type="text" class="feature-name" placeholder="e.g., User Registration, Product Search" />
+                </div>
+                <div class="form-group">
+                  <label>Module/Section</label>
+                  <input type="text" class="feature-module" placeholder="e.g., Authentication, Catalog" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Description</label>
+                <textarea class="feature-description" rows="2" placeholder="Describe what this feature does..."></textarea>
+              </div>
+              <div class="form-group">
+                <label>Input Fields (JSON format - we'll help you build this)</label>
+                <textarea class="feature-inputs" rows="4" placeholder='[
+  {"name": "email", "type": "email", "required": true, "maxLength": 100},
+  {"name": "password", "type": "password", "required": true, "minLength": 8},
+  {"name": "age", "type": "number", "minValue": 18, "maxValue": 120}
+]'></textarea>
+              </div>
+              <div class="form-group">
+                <label>Business Rules (one per line)</label>
+                <textarea class="feature-rules" rows="2" placeholder="Email must be unique\nPassword must contain uppercase and number"></textarea>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-secondary" onclick="addFeature()" style="margin-top: 1rem;">
+            <span>+</span> Add Another Feature
+          </button>
+        </div>
+
+        <!-- Step 5: Critical Flows -->
+        <div class="wizard-content" id="wizard-step-5">
+          <h3 style="margin-bottom: 1rem;">🎯 Critical User Flows</h3>
+          <p style="color: var(--gray-500); margin-bottom: 1rem; font-size: 0.9rem;">
+            Define the most important user journeys that must always work. These get highest test priority.
+          </p>
+          <div id="flows-container">
+            <div class="dynamic-item" data-flow-index="0">
+              <div class="item-header">
+                <span class="item-title">Critical Flow 1</span>
+                <button type="button" class="btn-remove" onclick="removeFlow(this)">×</button>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Flow Name *</label>
+                  <input type="text" class="flow-name" placeholder="e.g., Complete Purchase, User Onboarding" />
+                </div>
+                <div class="form-group">
+                  <label>User Role</label>
+                  <input type="text" class="flow-role" placeholder="e.g., Customer, Admin" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Steps (one per line, in order)</label>
+                <textarea class="flow-steps" rows="4" placeholder="1. User adds item to cart\n2. User proceeds to checkout\n3. User enters shipping info\n4. User enters payment details\n5. User confirms order\n6. Order confirmation displayed"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Expected Final Outcome</label>
+                <input type="text" class="flow-outcome" placeholder="e.g., Order is created and confirmation email sent" />
+              </div>
+              <div class="form-row" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="form-group">
+                  <label>Priority</label>
+                  <select class="flow-priority">
+                    <option value="critical" selected>Critical</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Usage Frequency</label>
+                  <select class="flow-frequency">
+                    <option value="very-high">Very High</option>
+                    <option value="high" selected>High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Business Impact</label>
+                  <select class="flow-impact">
+                    <option value="critical" selected>Critical (Revenue)</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-secondary" onclick="addFlow()" style="margin-top: 1rem;">
+            <span>+</span> Add Another Flow
+          </button>
+        </div>
+
+        <!-- Step 6: Test Scope -->
+        <div class="wizard-content" id="wizard-step-6">
+          <h3 style="margin-bottom: 1rem;">🎚️ Testing Scope & Configuration</h3>
+          <p style="color: var(--gray-500); margin-bottom: 1rem; font-size: 0.9rem;">
+            Configure what types of tests to generate. More options = more comprehensive coverage.
+          </p>
+
+          <div class="scope-section">
+            <h4>Test Types</h4>
+            <div class="checkbox-grid">
+              <label class="checkbox-card">
+                <input type="checkbox" id="scope-positive" checked />
+                <span class="checkbox-label">✅ Positive Tests</span>
+                <span class="checkbox-desc">Happy path scenarios</span>
+              </label>
+              <label class="checkbox-card">
+                <input type="checkbox" id="scope-negative" checked />
+                <span class="checkbox-label">❌ Negative Tests</span>
+                <span class="checkbox-desc">Invalid inputs, errors</span>
+              </label>
+              <label class="checkbox-card">
+                <input type="checkbox" id="scope-boundary" checked />
+                <span class="checkbox-label">📏 Boundary Tests</span>
+                <span class="checkbox-desc">Min/max value testing</span>
+              </label>
+              <label class="checkbox-card">
+                <input type="checkbox" id="scope-edge" checked />
+                <span class="checkbox-label">🔀 Edge Cases</span>
+                <span class="checkbox-desc">Unusual scenarios</span>
+              </label>
+              <label class="checkbox-card">
+                <input type="checkbox" id="scope-security" checked />
+                <span class="checkbox-label">🔒 Security Tests</span>
+                <span class="checkbox-desc">Injection, XSS, auth bypass</span>
+              </label>
+              <label class="checkbox-card">
+                <input type="checkbox" id="scope-accessibility" />
+                <span class="checkbox-label">♿ Accessibility</span>
+                <span class="checkbox-desc">WCAG compliance</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="scope-section" style="margin-top: 1.5rem;">
+            <h4>Test Depth</h4>
+            <div class="form-group">
+              <select id="scope-depth" style="max-width: 300px;">
+                <option value="shallow">Shallow - Basic coverage</option>
+                <option value="moderate">Moderate - Standard coverage</option>
+                <option value="deep" selected>Deep - Thorough coverage</option>
+                <option value="exhaustive">Exhaustive - Maximum coverage (like 1000 testers)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="scope-section" style="margin-top: 1.5rem;">
+            <h4>Browser & Device Testing</h4>
+            <div class="checkbox-grid" style="grid-template-columns: repeat(3, 1fr);">
+              <label class="checkbox-card small">
+                <input type="checkbox" id="browser-chromium" checked />
+                <span class="checkbox-label">Chrome</span>
+              </label>
+              <label class="checkbox-card small">
+                <input type="checkbox" id="browser-firefox" />
+                <span class="checkbox-label">Firefox</span>
+              </label>
+              <label class="checkbox-card small">
+                <input type="checkbox" id="browser-webkit" />
+                <span class="checkbox-label">Safari</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="wizard-nav">
+          <button type="button" class="btn btn-secondary" id="wizard-prev" style="visibility: hidden;">
+            ← Previous
+          </button>
+          <div style="flex: 1;"></div>
+          <button type="button" class="btn btn-primary" id="wizard-next">
+            Next →
+          </button>
+          <button type="button" class="btn btn-success" id="wizard-generate" style="display: none;">
+            🚀 Generate Test Suite
+          </button>
+        </div>
+
+        <!-- Generation Results -->
+        <div id="generation-results" style="display: none; margin-top: 2rem;">
+          <div class="results-summary">
+            <h3>🎉 Test Suite Generated!</h3>
+            <div class="results-grid" style="margin-top: 1rem;">
+              <div class="stat-card total">
+                <div class="stat-value" id="gen-scenarios">0</div>
+                <div class="stat-label">Test Scenarios</div>
+              </div>
+              <div class="stat-card passed">
+                <div class="stat-value" id="gen-positive">0</div>
+                <div class="stat-label">Positive Tests</div>
+              </div>
+              <div class="stat-card failed">
+                <div class="stat-value" id="gen-negative">0</div>
+                <div class="stat-label">Negative Tests</div>
+              </div>
+              <div class="stat-card" style="border-left: 4px solid var(--warning);">
+                <div class="stat-value" id="gen-total" style="color: var(--warning);">0</div>
+                <div class="stat-label">Total Test Cases</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 1.5rem;">
+            <h4>Test Strategy Summary</h4>
+            <div id="strategy-summary" style="background: var(--gray-50); padding: 1rem; border-radius: 0.5rem; margin-top: 0.5rem;"></div>
+          </div>
+
+          <div style="margin-top: 1.5rem;">
+            <h4>Recommendations</h4>
+            <div id="recommendations-list" style="margin-top: 0.5rem;"></div>
+          </div>
+
+          <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+            <button type="button" class="btn btn-primary" id="btn-execute-intelligent">
+              ▶️ Execute All Tests
+            </button>
+            <a href="/generated/intelligent/generated-test-cases.csv" download class="btn btn-secondary">
+              📥 Download CSV
+            </a>
+            <button type="button" class="btn btn-secondary" onclick="resetWizard()">
+              🔄 Start Over
+            </button>
+          </div>
+        </div>
+
+        <div class="status-log" id="intelligent-log" style="display: none;"></div>
       </div>
 
       <!-- Discover Tab -->
-      <div class="tab-content active" id="discover">
-        <h2 style="margin-bottom: 1.5rem;">Discover Web Application</h2>
+      <div class="tab-content" id="discover">
+        <h2 style="margin-bottom: 1.5rem;">Quick Discovery Mode</h2>
         <p style="color: var(--gray-500); margin-bottom: 1.5rem;">
           Enter a URL to automatically discover all pages, forms, buttons, and generate test cases.
         </p>
@@ -1077,52 +2009,6 @@ TC001,Sample Login Test,Verify user can login,functional,high,"smoke,auth",4,cli
         </div>
       </div>
 
-      <!-- Full Workflow Tab -->
-      <div class="tab-content" id="workflow">
-        <h2 style="margin-bottom: 1.5rem;">Complete Workflow</h2>
-        <p style="color: var(--gray-500); margin-bottom: 1.5rem;">
-          One-click solution: Discover → Generate → Execute → Report
-        </p>
-
-        <div class="form-group">
-          <label for="workflow-url">Web Application URL</label>
-          <input type="url" id="workflow-url" placeholder="https://your-app.com" />
-        </div>
-
-        <div class="form-group">
-          <label for="workflow-depth">Crawl Depth</label>
-          <select id="workflow-depth">
-            <option value="2">2 - Quick Scan</option>
-            <option value="3" selected>3 - Standard</option>
-            <option value="5">5 - Thorough</option>
-          </select>
-        </div>
-
-        <div class="checkbox-group">
-          <input type="checkbox" id="workflow-auth" />
-          <label for="workflow-auth" style="margin: 0;">Requires Authentication</label>
-        </div>
-
-        <div class="auth-section" id="workflow-auth-section">
-          <h4>🔐 Authentication Settings</h4>
-          <div class="form-row">
-            <div class="form-group">
-              <label>Username/Email</label>
-              <input type="text" id="workflow-username" placeholder="username" />
-            </div>
-            <div class="form-group">
-              <label>Password</label>
-              <input type="password" id="workflow-password" placeholder="password" />
-            </div>
-          </div>
-        </div>
-
-        <button class="btn btn-primary btn-block" id="btn-workflow">
-          <span>🚀</span> Run Complete Workflow
-        </button>
-
-        <div class="status-log" id="workflow-log" style="display: none;"></div>
-      </div>
     </div>
 
     <!-- Features -->
@@ -1556,6 +2442,370 @@ TC001,Sample Login Test,Verify user can login,functional,high,"smoke,auth",4,cli
         btn.innerHTML = '<span>▶️</span> Generate Scripts & Execute Tests';
       }
     });
+
+    // ==========================================
+    // INTELLIGENT TESTING WIZARD
+    // ==========================================
+
+    let currentWizardStep = 1;
+    const totalWizardSteps = 6;
+
+    // Wizard navigation
+    document.getElementById('wizard-next').addEventListener('click', () => {
+      if (currentWizardStep < totalWizardSteps) {
+        goToWizardStep(currentWizardStep + 1);
+      }
+    });
+
+    document.getElementById('wizard-prev').addEventListener('click', () => {
+      if (currentWizardStep > 1) {
+        goToWizardStep(currentWizardStep - 1);
+      }
+    });
+
+    function goToWizardStep(step) {
+      // Update step indicators
+      document.querySelectorAll('.wizard-step').forEach((s, index) => {
+        s.classList.remove('active');
+        if (index + 1 < step) {
+          s.classList.add('completed');
+        } else {
+          s.classList.remove('completed');
+        }
+        if (index + 1 === step) {
+          s.classList.add('active');
+        }
+      });
+
+      // Update content
+      document.querySelectorAll('.wizard-content').forEach(c => c.classList.remove('active'));
+      document.getElementById('wizard-step-' + step).classList.add('active');
+
+      // Update buttons
+      document.getElementById('wizard-prev').style.visibility = step === 1 ? 'hidden' : 'visible';
+      document.getElementById('wizard-next').style.display = step === totalWizardSteps ? 'none' : 'inline-flex';
+      document.getElementById('wizard-generate').style.display = step === totalWizardSteps ? 'inline-flex' : 'none';
+
+      currentWizardStep = step;
+    }
+
+    // Dynamic item management
+    let roleIndex = 1;
+    let storyIndex = 1;
+    let featureIndex = 1;
+    let flowIndex = 1;
+
+    function addRole() {
+      const container = document.getElementById('user-roles-container');
+      const template = container.querySelector('.dynamic-item').cloneNode(true);
+      template.setAttribute('data-role-index', roleIndex);
+      template.querySelector('.item-title').textContent = 'Role ' + (roleIndex + 1);
+      template.querySelectorAll('input, textarea, select').forEach(el => el.value = '');
+      container.appendChild(template);
+      roleIndex++;
+    }
+
+    function removeRole(btn) {
+      const container = document.getElementById('user-roles-container');
+      if (container.querySelectorAll('.dynamic-item').length > 1) {
+        btn.closest('.dynamic-item').remove();
+      }
+    }
+
+    function addStory() {
+      const container = document.getElementById('user-stories-container');
+      const template = container.querySelector('.dynamic-item').cloneNode(true);
+      template.setAttribute('data-story-index', storyIndex);
+      template.querySelector('.item-title').textContent = 'User Story ' + (storyIndex + 1);
+      template.querySelectorAll('input, textarea, select').forEach(el => el.value = '');
+      container.appendChild(template);
+      storyIndex++;
+    }
+
+    function removeStory(btn) {
+      const container = document.getElementById('user-stories-container');
+      if (container.querySelectorAll('.dynamic-item').length > 1) {
+        btn.closest('.dynamic-item').remove();
+      }
+    }
+
+    function addFeature() {
+      const container = document.getElementById('features-container');
+      const template = container.querySelector('.dynamic-item').cloneNode(true);
+      template.setAttribute('data-feature-index', featureIndex);
+      template.querySelector('.item-title').textContent = 'Feature ' + (featureIndex + 1);
+      template.querySelectorAll('input, textarea').forEach(el => el.value = '');
+      container.appendChild(template);
+      featureIndex++;
+    }
+
+    function removeFeature(btn) {
+      const container = document.getElementById('features-container');
+      if (container.querySelectorAll('.dynamic-item').length > 1) {
+        btn.closest('.dynamic-item').remove();
+      }
+    }
+
+    function addFlow() {
+      const container = document.getElementById('flows-container');
+      const template = container.querySelector('.dynamic-item').cloneNode(true);
+      template.setAttribute('data-flow-index', flowIndex);
+      template.querySelector('.item-title').textContent = 'Critical Flow ' + (flowIndex + 1);
+      template.querySelectorAll('input, textarea').forEach(el => el.value = '');
+      container.appendChild(template);
+      flowIndex++;
+    }
+
+    function removeFlow(btn) {
+      const container = document.getElementById('flows-container');
+      if (container.querySelectorAll('.dynamic-item').length > 1) {
+        btn.closest('.dynamic-item').remove();
+      }
+    }
+
+    // Collect wizard data
+    function collectWizardData() {
+      const project = {
+        name: document.getElementById('proj-name').value,
+        description: document.getElementById('proj-description').value,
+        baseUrl: document.getElementById('proj-url').value,
+        framework: document.getElementById('proj-framework').value,
+        industry: document.getElementById('proj-industry').value,
+        userRoles: [],
+        userStories: [],
+        features: [],
+        criticalFlows: [],
+        testingScope: {
+          includePositive: document.getElementById('scope-positive').checked,
+          includeNegative: document.getElementById('scope-negative').checked,
+          includeBoundary: document.getElementById('scope-boundary').checked,
+          includeEdgeCases: document.getElementById('scope-edge').checked,
+          includeSecurity: document.getElementById('scope-security').checked,
+          includeAccessibility: document.getElementById('scope-accessibility').checked,
+          testDepth: document.getElementById('scope-depth').value,
+          browsers: [],
+        }
+      };
+
+      // Collect browsers
+      if (document.getElementById('browser-chromium').checked) project.testingScope.browsers.push('chromium');
+      if (document.getElementById('browser-firefox').checked) project.testingScope.browsers.push('firefox');
+      if (document.getElementById('browser-webkit').checked) project.testingScope.browsers.push('webkit');
+
+      // Collect roles
+      document.querySelectorAll('#user-roles-container .dynamic-item').forEach(item => {
+        const name = item.querySelector('.role-name').value;
+        if (name) {
+          project.userRoles.push({
+            name,
+            accessLevel: item.querySelector('.role-access').value,
+            permissions: item.querySelector('.role-permissions').value.split(',').map(s => s.trim()).filter(s => s),
+            restrictions: item.querySelector('.role-restrictions').value.split(',').map(s => s.trim()).filter(s => s),
+            credentials: {
+              username: item.querySelector('.role-username').value,
+              password: item.querySelector('.role-password').value,
+            }
+          });
+        }
+      });
+
+      // Collect stories
+      document.querySelectorAll('#user-stories-container .dynamic-item').forEach(item => {
+        const title = item.querySelector('.story-title').value;
+        if (title) {
+          project.userStories.push({
+            title,
+            asA: item.querySelector('.story-as-a').value,
+            iWant: item.querySelector('.story-i-want').value,
+            soThat: item.querySelector('.story-so-that').value,
+            acceptanceCriteria: item.querySelector('.story-criteria').value.split('\\n').filter(s => s.trim()),
+            priority: item.querySelector('.story-priority').value,
+            complexity: item.querySelector('.story-complexity').value,
+          });
+        }
+      });
+
+      // Collect features
+      document.querySelectorAll('#features-container .dynamic-item').forEach(item => {
+        const name = item.querySelector('.feature-name').value;
+        if (name) {
+          let inputs = [];
+          try {
+            const inputsStr = item.querySelector('.feature-inputs').value;
+            if (inputsStr) {
+              inputs = JSON.parse(inputsStr);
+            }
+          } catch (e) {
+            console.log('Invalid inputs JSON');
+          }
+
+          project.features.push({
+            name,
+            module: item.querySelector('.feature-module').value,
+            description: item.querySelector('.feature-description').value,
+            inputs,
+            businessRules: item.querySelector('.feature-rules').value.split('\\n').filter(s => s.trim()).map(r => ({ description: r })),
+            outputs: [],
+            validations: inputs.filter(i => i.required).map(i => ({ field: i.name, type: 'required', rule: 'required', errorMessage: i.name + ' is required' })),
+          });
+        }
+      });
+
+      // Collect flows
+      document.querySelectorAll('#flows-container .dynamic-item').forEach(item => {
+        const name = item.querySelector('.flow-name').value;
+        if (name) {
+          project.criticalFlows.push({
+            name,
+            userRole: item.querySelector('.flow-role').value,
+            steps: item.querySelector('.flow-steps').value.split('\\n').filter(s => s.trim()),
+            expectedOutcome: item.querySelector('.flow-outcome').value,
+            priority: item.querySelector('.flow-priority').value,
+            frequency: item.querySelector('.flow-frequency').value,
+            businessImpact: item.querySelector('.flow-impact').value,
+          });
+        }
+      });
+
+      return project;
+    }
+
+    // Generate test suite
+    document.getElementById('wizard-generate').addEventListener('click', async () => {
+      const project = collectWizardData();
+
+      if (!project.name || !project.baseUrl) {
+        showNotification('Please enter project name and URL', 'error');
+        goToWizardStep(1);
+        return;
+      }
+
+      const btn = document.getElementById('wizard-generate');
+      btn.disabled = true;
+      btn.innerHTML = '<div class="spinner"></div> Generating...';
+
+      document.getElementById('intelligent-log').style.display = 'block';
+
+      try {
+        const response = await fetch('/api/intelligent-generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ project })
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+          showNotification(data.error, 'error');
+        } else {
+          // Show results
+          document.getElementById('generation-results').style.display = 'block';
+          document.getElementById('gen-scenarios').textContent = data.suite.scenarios?.length || 0;
+          document.getElementById('gen-positive').textContent = data.suite.coverage?.positiveTests || 0;
+          document.getElementById('gen-negative').textContent = data.suite.coverage?.negativeTests || 0;
+          document.getElementById('gen-total').textContent = data.suite.coverage?.totalTests || 0;
+
+          // Strategy summary
+          const strategy = data.strategy;
+          document.getElementById('strategy-summary').innerHTML =
+            '<p><strong>Approach:</strong> ' + (strategy.approach || 'Comprehensive testing') + '</p>' +
+            '<p><strong>Phases:</strong> ' + (strategy.testPhases?.map(p => p.name).join(' → ') || 'Standard') + '</p>' +
+            '<p><strong>Risk Areas:</strong> ' + (strategy.riskAreas?.length || 0) + ' identified</p>';
+
+          // Recommendations
+          const recsHtml = (data.report.recommendations || []).map(rec =>
+            '<div class="recommendation-item">' +
+            '<div class="icon">' + (rec.type === 'coverage' ? '📊' : rec.type === 'risk' ? '⚠️' : '💡') + '</div>' +
+            '<div class="content">' +
+            '<div class="title">' + rec.title + '</div>' +
+            '<div class="desc">' + rec.description + '</div>' +
+            '</div>' +
+            '<span class="impact ' + rec.impact + '">' + rec.impact.toUpperCase() + '</span>' +
+            '</div>'
+          ).join('');
+          document.getElementById('recommendations-list').innerHTML = recsHtml || '<p style="color: var(--gray-500);">No recommendations - great coverage!</p>';
+
+          showNotification('Test suite generated successfully!', 'success');
+        }
+      } catch (error) {
+        showNotification('Failed to generate tests: ' + error.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '🚀 Generate Test Suite';
+      }
+    });
+
+    // Execute intelligent tests
+    document.getElementById('btn-execute-intelligent').addEventListener('click', async () => {
+      const btn = document.getElementById('btn-execute-intelligent');
+      btn.disabled = true;
+      btn.innerHTML = '<div class="spinner"></div> Executing...';
+
+      try {
+        const response = await fetch('/api/intelligent-execute', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            baseUrl: document.getElementById('proj-url').value
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+          showNotification(data.error, 'error');
+        } else {
+          showNotification('Tests executed! Check Results tab.', 'success');
+          loadResults();
+        }
+      } catch (error) {
+        showNotification('Failed to execute tests: ' + error.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '▶️ Execute All Tests';
+      }
+    });
+
+    // Reset wizard
+    function resetWizard() {
+      goToWizardStep(1);
+      document.getElementById('generation-results').style.display = 'none';
+      document.getElementById('intelligent-log').style.display = 'none';
+      document.getElementById('intelligent-log').innerHTML = '';
+
+      // Clear all inputs
+      document.querySelectorAll('#intelligent input, #intelligent textarea').forEach(el => el.value = '');
+      document.querySelectorAll('#intelligent select').forEach(el => el.selectedIndex = 0);
+
+      // Reset checkboxes
+      document.getElementById('scope-positive').checked = true;
+      document.getElementById('scope-negative').checked = true;
+      document.getElementById('scope-boundary').checked = true;
+      document.getElementById('scope-edge').checked = true;
+      document.getElementById('scope-security').checked = true;
+      document.getElementById('scope-accessibility').checked = false;
+      document.getElementById('browser-chromium').checked = true;
+      document.getElementById('browser-firefox').checked = false;
+      document.getElementById('browser-webkit').checked = false;
+
+      // Reset dynamic items to just one each
+      ['user-roles-container', 'user-stories-container', 'features-container', 'flows-container'].forEach(containerId => {
+        const container = document.getElementById(containerId);
+        const items = container.querySelectorAll('.dynamic-item');
+        items.forEach((item, index) => {
+          if (index > 0) item.remove();
+          else {
+            item.querySelectorAll('input, textarea').forEach(el => el.value = '');
+            item.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
+          }
+        });
+      });
+
+      roleIndex = 1;
+      storyIndex = 1;
+      featureIndex = 1;
+      flowIndex = 1;
+    }
 
     // Load results on page load
     loadResults();
